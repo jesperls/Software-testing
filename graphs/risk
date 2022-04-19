@@ -1,0 +1,13 @@
+digraph "clustergraphs/risk" {
+	graph [label="graphs/risk"]
+	1 [label="def __init__(self, name, itype, probability, magnitude):...
+"]
+	subgraph cluster__init__ {
+		graph [label=__init__]
+		3 [label="self.name = name
+self.type = itype
+self.probability = probability / 100
+self.magnitude = magnitude
+"]
+	}
+}

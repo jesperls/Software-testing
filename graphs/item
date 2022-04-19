@@ -1,0 +1,13 @@
+digraph "clustergraphs/item" {
+	graph [label="graphs/item"]
+	1 [label="def __init__(self, risks, enterd):...
+"]
+	subgraph cluster__init__ {
+		graph [label=__init__]
+		3 [label="self.risks = risks
+self.enterd = enterd
+self.exited = -1
+self.when_to_move = -1
+"]
+	}
+}

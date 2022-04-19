@@ -1,0 +1,267 @@
+digraph "clustergraphs/UI" {
+	graph [label="graphs/UI"]
+	1 [label="def UI(self, id, modifiers):...
+"]
+	subgraph clusterUI {
+		graph [label=UI]
+		3 [label="if id == 0:
+"]
+		4 [label="return \"\"\"
+Warehouse Sim 1.0 
+
+1. Create Warehouse
+2. Load/Save Warehouse
+3. View/Edit Warehouse
+4. Simulate
+0. Exit
+
+
+                \"\"\"
+"]
+		3 -> 4 [label="id == 0"]
+		6 [label="if id == 1:
+"]
+		7 [label="return \"\"\"
+Create Warehouse:
+
+1. Create workers
+2. Create arrivals
+3. Create shelf
+4. Manage items
+5. Average item time on shelves
+0. Back
+
+
+                \"\"\"
+"]
+		6 -> 7 [label="id == 1"]
+		9 [label="if id == 2:
+"]
+		10 [label="return \"\"\"
+Create workers:
+
+1. Create multiple workers
+2. Create single worker
+0. Back     
+            
+                
+                \"\"\"
+"]
+		9 -> 10 [label="id == 2"]
+		12 [label="if id == 3:
+"]
+		13 [label="return \"\"\"
+
+Create multiple workers:
+
+1. Amount: {0}
+2. Scan time: {1}s
+3. Walking Speed: {2} m/s
+4. Item handeling time: {3}s
+5. Create.
+0. Back
+                
+                
+                \"\"\".format(
+    modifiers[0], modifiers[1], modifiers[2], modifiers[3])
+"]
+		12 -> 13 [label="id == 3"]
+		15 [label="if id == 4:
+"]
+		16 [label="return \"\"\"
+Create single worker
+
+1. Scan time: {0}s
+2. Walking Speed: {1} m/s
+3. Item handeling time: {2}s
+4. Create.
+0. Back
+
+
+                \"\"\".format(
+    modifiers[0], modifiers[1], modifiers[2])
+"]
+		15 -> 16 [label="id == 4"]
+		18 [label="if id == 5:
+"]
+		19 [label="return \"\"\"
+Create Arrivals
+
+1. Arrivals capacity: {0}
+2. Create
+0. Back
+
+
+            \"\"\".format(
+    modifiers[0])
+"]
+		18 -> 19 [label="id == 5"]
+		21 [label="if id == 6:
+"]
+		22 [label="return \"\"\"
+
+Create Shelf
+
+1. Shelf capacity: {0} items
+2. Distance from arrivals: {1}m
+3. Distance from departures: {2}m
+4. Create.
+0. Back
+
+
+                \"\"\".format(
+    modifiers[0], modifiers[1], modifiers[2])
+"]
+		21 -> 22 [label="id == 6"]
+		24 [label="if id == 7:
+"]
+		25 [label="return \"\"\"
+Manage Items
+
+1. Create scanning risks
+2. Create moving risks
+3. Create handeling risks
+0. Back
+
+
+                    \"\"\"
+"]
+		24 -> 25 [label="id == 7"]
+		27 [label="if id == 8:
+"]
+		28 [label="return \"\"\"
+Create {0}
+
+1. Name: {1}
+2. Probability (1-100%): {2}
+3. Time penalty: {3} Seconds
+4. Create
+0. Back.
+
+
+
+                    \"\"\".format(
+    modifiers[0], modifiers[1], modifiers[2], modifiers[3])
+"]
+		27 -> 28 [label="id == 8"]
+		30 [label="if id == 9:
+"]
+		31 [label="return \"\"\"
+Average item shelf time.
+
+1. Set shelf time: {0}s
+0. Back
+
+
+                    \"\"\".format(
+    modifiers[0])
+"]
+		30 -> 31 [label="id == 9"]
+		33 [label="if id == 10:
+"]
+		34 [label="return \"\"\"
+Load/Save Warehouse
+
+1. Load Warehouse
+2. Save Warehouse
+0. Back
+
+
+                \"\"\"
+"]
+		33 -> 34 [label="id == 10"]
+		36 [label="if id == 11:
+"]
+		37 [label="return \"\"\"
+Simulate average package time on shelves.
+
+1. Seconds to simulate: {0}
+2. Item arrival frequency: Every {1} Second
+3. Simulate
+0. Back
+
+
+                \"\"\".format(
+    modifiers[0], modifiers[1])
+"]
+		36 -> 37 [label="id == 11"]
+		39 [label="if id == 12:
+"]
+		40 [label="return \"\"\"
+View/Edit Warehouse
+1. View/Edit workers
+2. View/Edit arrivals
+3. View/Edit shelf
+4. View/Edit item risk
+5. View/Edit item time on shelves
+0. Back
+
+
+                \"\"\"
+"]
+		39 -> 40 [label="id == 12"]
+		42 [label="if id == 13:
+"]
+		43 [label="return \"\"\"
+Edit worker
+
+1. Scan time: {0}s
+2. Walking Speed: {1} m/s
+3. Item handeling time: {2}s
+4. Remove
+0. Back
+
+
+                \"\"\".format(
+    modifiers[0], modifiers[1], modifiers[2])
+"]
+		42 -> 43 [label="id == 13"]
+		45 [label="if id == 14:
+"]
+		46 [label="return \"\"\"
+Edit Shelf
+
+1. Shelf capacity: {0} items
+2. Distance from arrivals: {1}m
+3. Distance from departures: {2}m
+4. Remove
+0. Back
+
+
+                \"\"\".format(
+    modifiers[0], modifiers[1], modifiers[2])
+"]
+		45 -> 46 [label="id == 14"]
+		48 [label="if id == 15:
+"]
+		49 [label="return \"\"\"
+Edit Risk
+
+1. Name: {0}
+2. Probability (1-100%): {1}
+3. Time penalty: {2} Seconds
+4. Remove
+0. Back.
+
+
+                \"\"\".format(
+    modifiers[0], modifiers[1], modifiers[2])
+"]
+		48 -> 49 [label="id == 15"]
+		45 -> 48 [label="(id != 14)"]
+		42 -> 45 [label="(id != 13)"]
+		39 -> 42 [label="(id != 12)"]
+		36 -> 39 [label="(id != 11)"]
+		33 -> 36 [label="(id != 10)"]
+		30 -> 33 [label="(id != 9)"]
+		27 -> 30 [label="(id != 8)"]
+		24 -> 27 [label="(id != 7)"]
+		21 -> 24 [label="(id != 6)"]
+		18 -> 21 [label="(id != 5)"]
+		15 -> 18 [label="(id != 4)"]
+		12 -> 15 [label="(id != 3)"]
+		9 -> 12 [label="(id != 2)"]
+		6 -> 9 [label="(id != 1)"]
+		3 -> 6 [label="(id != 0)"]
+	}
+}
