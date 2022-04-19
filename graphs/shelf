@@ -1,0 +1,88 @@
+digraph "clustergraphs/shelf" {
+	graph [label="graphs/shelf"]
+	1 [label="def __init__(self, id, store, distance_from_arrivals=0,...
+def __len__(self):...
+def is_empty(self):...
+def is_full(self):...
+def get_item_ids(self):...
+def item_to_be_moved(self, env, worker):...
+"]
+	subgraph cluster__init__ {
+		graph [label=__init__]
+		3 [label="self.id = id
+self.store = store
+self.distance_from_arrivals = distance_from_arrivals
+self.distance_from_departure = distance_from_departure
+"]
+	}
+	subgraph cluster__len__ {
+		graph [label=__len__]
+		6 [label="return len(self.store.items)
+"]
+	}
+	subgraph clusteris_empty {
+		graph [label=is_empty]
+		10 [label="\"\"\"Returns true if the shelf is empty\"\"\"
+if len(self) == 0:
+"]
+		11 [label="return True
+"]
+		10 -> 11 [label="len(self) == 0"]
+		12 [label="return False
+"]
+		10 -> 12 [label="(len(self) != 0)"]
+	}
+	subgraph clusteris_full {
+		graph [label=is_full]
+		17 [label="\"\"\"Returns ture if the shelf is full\"\"\"
+if len(self) == self.store.capacity:
+"]
+		18 [label="return True
+"]
+		17 -> 18 [label="len(self) == self.store.capacity"]
+		19 [label="return False
+"]
+		17 -> 19 [label="(len(self) != self.store.capacity)"]
+	}
+	subgraph clusterget_item_ids {
+		graph [label=get_item_ids]
+		24 [label="\"\"\"Returns a list of the item ids containd in the shelf\"\"\"
+ids = []
+"]
+		25 [label="for i in self.store.items:
+"]
+		26 [label="ids.append(i.id)
+"]
+		"26_calls" [label="ids.append" shape=box]
+		26 -> "26_calls" [label=calls style=dashed]
+		26 -> 25 [label=""]
+		25 -> 26 [label="self.store.items"]
+		27 [label="return ids
+"]
+		25 -> 27 [label=""]
+		24 -> 25 [label=""]
+	}
+	subgraph clusteritem_to_be_moved {
+		graph [label=item_to_be_moved]
+		31 [label="\"\"\"Returns an item that can be moved\"\"\"
+"]
+		32 [label="for item in self.store.items:
+"]
+		33 [label="itm = self.store.get()
+if item.when_to_move <= env.now:
+"]
+		"33_calls" [label="self.store.get" shape=box]
+		33 -> "33_calls" [label=calls style=dashed]
+		35 [label="return itm
+"]
+		33 -> 35 [label="item.when_to_move <= env.now"]
+		36 [label="self.store.put(itm)
+"]
+		"36_calls" [label="self.store.put" shape=box]
+		36 -> "36_calls" [label=calls style=dashed]
+		36 -> 32 [label=""]
+		33 -> 36 [label="(item.when_to_move > env.now)"]
+		32 -> 33 [label="self.store.items"]
+		31 -> 32 [label=""]
+	}
+}

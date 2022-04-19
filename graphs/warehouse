@@ -1,0 +1,845 @@
+digraph "clustergraphs/warehouse" {
+	graph [label="graphs/warehouse"]
+	1 [label="import itertools
+from re import T
+import re
+import simpy
+from source.item import *
+from source.shelf import *
+from source.worker import *
+from source.risk import *
+from source.Store import *
+from source.UI import *
+import random
+def __init__(self):...
+def edit_worker(self):...
+def edit_arrivals(self):...
+def edit_shelfs(self):...
+def edit_items(self):...
+def edit_time_on_shelf(self):...
+def create_worker_lst(self, amount, scan_time, speed, item_handeling_time):...
+def create_item(self):...
+def create_shelf(self, capacity, distance_from_arrivals,...
+def create_arrivals(self, capacity):...
+def create_departures(self):...
+def gen_items(self, frequency):...
+def get_progress(self, sim_time):...
+def run(self, no_scanning):...
+def simulate(self, sim_time, arrivals_freq, no_scanning):...
+"]
+	subgraph cluster__init__ {
+		graph [label=__init__]
+		3 [label="self.shelves = []
+self.arrivals = None
+self.departures = None
+self.workers = []
+self.avg_shelfed = 10
+self.cur_time = 0
+self.global_risks = []
+self.item_risks = []
+self.env = None
+self.progress = 10
+"]
+	}
+	subgraph clusteredit_worker {
+		graph [label=edit_worker]
+		6 [label="ui = UI()
+index = 1
+"]
+		"6_calls" [label=UI shape=box]
+		6 -> "6_calls" [label=calls style=dashed]
+		7 [label="for worker in self.workers:
+"]
+		8 [label="print(
+    f'{index}. Worker {index}: Scan time: {worker.scan_time}, Walking Speed: {worker.speed}, Item handeling time: {worker.scan_time}'
+    )
+index += 1
+"]
+		"8_calls" [label=print shape=box]
+		8 -> "8_calls" [label=calls style=dashed]
+		8 -> 7 [label=""]
+		7 -> 8 [label="self.workers"]
+		9 [label="index = input('Worker to Edit: ')
+"]
+		"9_calls" [label=input shape=box]
+		9 -> "9_calls" [label=calls style=dashed]
+		10 [label="while not index.isnumeric():
+"]
+		11 [label="print('Enter a valid number or enter 0 to exit')
+index = input('Worker to Edit: ')
+"]
+		"11_calls" [label="print
+input" shape=box]
+		11 -> "11_calls" [label=calls style=dashed]
+		11 -> 10 [label=""]
+		10 -> 11 [label="not index.isnumeric()"]
+		12 [label="index = int(index)
+if index <= 0 or index > len(self.workers):
+"]
+		"12_calls" [label=int shape=box]
+		12 -> "12_calls" [label=calls style=dashed]
+		13 [label=return
+]
+		12 -> 13 [label="index <= 0 or index > len(self.workers)"]
+		14 [label="worker = self.workers[index - 1]
+"]
+		16 [label="while True:
+"]
+		17 [label="print(ui.UI(13, [worker.scan_time, worker.speed, worker.scan_time]))
+user_input = input(': ')
+if user_input == '1':
+"]
+		"17_calls" [label="print
+input" shape=box]
+		17 -> "17_calls" [label=calls style=dashed]
+		19 [label="user_input = input('Scan time: ')
+if user_input.isnumeric():
+"]
+		"19_calls" [label=input shape=box]
+		19 -> "19_calls" [label=calls style=dashed]
+		42 [label="worker.scan_time = int(user_input)
+"]
+		"42_calls" [label=int shape=box]
+		42 -> "42_calls" [label=calls style=dashed]
+		42 -> 16 [label=""]
+		19 -> 42 [label="user_input.isnumeric()"]
+		44 [label="print('Invalid')
+"]
+		"44_calls" [label=print shape=box]
+		44 -> "44_calls" [label=calls style=dashed]
+		44 -> 16 [label=""]
+		19 -> 44 [label="(not user_input.isnumeric())"]
+		17 -> 19 [label="user_input == '1'"]
+		21 [label="if user_input == '2':
+"]
+		22 [label="user_input = input('Walking Speed: ')
+if user_input.isnumeric():
+"]
+		"22_calls" [label=input shape=box]
+		22 -> "22_calls" [label=calls style=dashed]
+		39 [label="worker.speed = int(user_input)
+"]
+		"39_calls" [label=int shape=box]
+		39 -> "39_calls" [label=calls style=dashed]
+		39 -> 16 [label=""]
+		22 -> 39 [label="user_input.isnumeric()"]
+		41 [label="print('Invalid')
+"]
+		"41_calls" [label=print shape=box]
+		41 -> "41_calls" [label=calls style=dashed]
+		41 -> 16 [label=""]
+		22 -> 41 [label="(not user_input.isnumeric())"]
+		21 -> 22 [label="user_input == '2'"]
+		24 [label="if user_input == '3':
+"]
+		25 [label="user_input = input('Item handeling time: ')
+if user_input.isnumeric():
+"]
+		"25_calls" [label=input shape=box]
+		25 -> "25_calls" [label=calls style=dashed]
+		36 [label="worker.scan_time = int(user_input)
+"]
+		"36_calls" [label=int shape=box]
+		36 -> "36_calls" [label=calls style=dashed]
+		36 -> 16 [label=""]
+		25 -> 36 [label="user_input.isnumeric()"]
+		38 [label="print('Invalid')
+"]
+		"38_calls" [label=print shape=box]
+		38 -> "38_calls" [label=calls style=dashed]
+		38 -> 16 [label=""]
+		25 -> 38 [label="(not user_input.isnumeric())"]
+		24 -> 25 [label="user_input == '3'"]
+		27 [label="if user_input == '4':
+"]
+		28 [label="self.workers.pop(index)
+return
+"]
+		"28_calls" [label="self.workers.pop" shape=box]
+		28 -> "28_calls" [label=calls style=dashed]
+		27 -> 28 [label="user_input == '4'"]
+		30 [label="if user_input == '0':
+"]
+		31 [label=return
+]
+		30 -> 31 [label="user_input == '0'"]
+		33 [label="print('Invalid')
+"]
+		"33_calls" [label=print shape=box]
+		33 -> "33_calls" [label=calls style=dashed]
+		33 -> 16 [label=""]
+		30 -> 33 [label="(user_input != '0')"]
+		27 -> 30 [label="(user_input != '4')"]
+		24 -> 27 [label="(user_input != '3')"]
+		21 -> 24 [label="(user_input != '2')"]
+		17 -> 21 [label="(user_input != '1')"]
+		16 -> 17 [label=True]
+		14 -> 16 [label=""]
+		12 -> 14 [label="(not (index <= 0 or index > len(self.workers)))"]
+		10 -> 12 [label="(not not index.isnumeric())"]
+		9 -> 10 [label=""]
+		7 -> 9 [label=""]
+		6 -> 7 [label=""]
+	}
+	subgraph clusteredit_arrivals {
+		graph [label=edit_arrivals]
+		47 [label="while True:
+"]
+		48 [label="print(f'1. EditArrivals capacity: {self.arrivals.store.capacity}')
+print('0. Back')
+user_input = input(': ')
+if user_input == '1':
+"]
+		"48_calls" [label="print
+print
+input" shape=box]
+		48 -> "48_calls" [label=calls style=dashed]
+		50 [label="user_input = input('Capacity: ')
+if user_input.isnumeric():
+"]
+		"50_calls" [label=input shape=box]
+		50 -> "50_calls" [label=calls style=dashed]
+		57 [label="self.arrivals.store = Store(int(user_input))
+"]
+		"57_calls" [label=Store shape=box]
+		57 -> "57_calls" [label=calls style=dashed]
+		57 -> 47 [label=""]
+		50 -> 57 [label="user_input.isnumeric()"]
+		59 [label="print('Invalid')
+"]
+		"59_calls" [label=print shape=box]
+		59 -> "59_calls" [label=calls style=dashed]
+		59 -> 47 [label=""]
+		50 -> 59 [label="(not user_input.isnumeric())"]
+		48 -> 50 [label="user_input == '1'"]
+		52 [label="if user_input == '0':
+"]
+		53 [label=return
+]
+		52 -> 53 [label="user_input == '0'"]
+		55 [label="print('Invalid')
+"]
+		"55_calls" [label=print shape=box]
+		55 -> "55_calls" [label=calls style=dashed]
+		55 -> 47 [label=""]
+		52 -> 55 [label="(user_input != '0')"]
+		48 -> 52 [label="(user_input != '1')"]
+		47 -> 48 [label=True]
+	}
+	subgraph clusteredit_shelfs {
+		graph [label=edit_shelfs]
+		62 [label="ui = UI()
+index = 1
+"]
+		"62_calls" [label=UI shape=box]
+		62 -> "62_calls" [label=calls style=dashed]
+		63 [label="for shelf in self.shelves:
+"]
+		64 [label="print(
+    f'{index}. Shelf {index}: Shelf capacity: {shelf.store.capacity}, Distance from arrivals: {shelf.distance_from_arrivals}, Distance from departures: {shelf.distance_from_departure}'
+    )
+index += 1
+"]
+		"64_calls" [label=print shape=box]
+		64 -> "64_calls" [label=calls style=dashed]
+		64 -> 63 [label=""]
+		63 -> 64 [label="self.shelves"]
+		65 [label="index = input('Shelf to Edit: ')
+"]
+		"65_calls" [label=input shape=box]
+		65 -> "65_calls" [label=calls style=dashed]
+		66 [label="while not index.isnumeric():
+"]
+		67 [label="print('Enter a valid number or enter 0 to exit')
+index = input('Shelf to Edit: ')
+"]
+		"67_calls" [label="print
+input" shape=box]
+		67 -> "67_calls" [label=calls style=dashed]
+		67 -> 66 [label=""]
+		66 -> 67 [label="not index.isnumeric()"]
+		68 [label="index = int(index)
+if index <= 0 or index > len(self.shelves):
+"]
+		"68_calls" [label=int shape=box]
+		68 -> "68_calls" [label=calls style=dashed]
+		69 [label=return
+]
+		68 -> 69 [label="index <= 0 or index > len(self.shelves)"]
+		70 [label="shelf = self.shelves[index - 1]
+"]
+		72 [label="while True:
+"]
+		73 [label="print(ui.UI(14, [shelf.store.capacity, shelf.distance_from_arrivals, shelf.
+    distance_from_departure]))
+user_input = input(': ')
+if user_input == '1':
+"]
+		"73_calls" [label="print
+input" shape=box]
+		73 -> "73_calls" [label=calls style=dashed]
+		75 [label="user_input = input('Capacity: ')
+if user_input.isnumeric():
+"]
+		"75_calls" [label=input shape=box]
+		75 -> "75_calls" [label=calls style=dashed]
+		96 [label="shelf.store = Store(int(user_input))
+"]
+		"96_calls" [label=Store shape=box]
+		96 -> "96_calls" [label=calls style=dashed]
+		96 -> 72 [label=""]
+		75 -> 96 [label="user_input.isnumeric()"]
+		98 [label="print('Invalid')
+"]
+		"98_calls" [label=print shape=box]
+		98 -> "98_calls" [label=calls style=dashed]
+		98 -> 72 [label=""]
+		75 -> 98 [label="(not user_input.isnumeric())"]
+		73 -> 75 [label="user_input == '1'"]
+		77 [label="if user_input == '2':
+"]
+		78 [label="user_input = input('Distance from arrivals: ')
+if user_input.isnumeric():
+"]
+		"78_calls" [label=input shape=box]
+		78 -> "78_calls" [label=calls style=dashed]
+		94 [label="shelf.distance_from_arrivals = int(user_input)
+"]
+		"94_calls" [label=int shape=box]
+		94 -> "94_calls" [label=calls style=dashed]
+		94 -> 72 [label=""]
+		78 -> 94 [label="user_input.isnumeric()"]
+		78 -> 72 [label="(not user_input.isnumeric())"]
+		77 -> 78 [label="user_input == '2'"]
+		80 [label="if user_input == '3':
+"]
+		81 [label="user_input = input('Distance from departures: ')
+if user_input.isnumeric():
+"]
+		"81_calls" [label=input shape=box]
+		81 -> "81_calls" [label=calls style=dashed]
+		92 [label="shelf.distance_from_departure = int(user_input)
+"]
+		"92_calls" [label=int shape=box]
+		92 -> "92_calls" [label=calls style=dashed]
+		92 -> 72 [label=""]
+		81 -> 92 [label="user_input.isnumeric()"]
+		81 -> 72 [label="(not user_input.isnumeric())"]
+		80 -> 81 [label="user_input == '3'"]
+		83 [label="if user_input == '4':
+"]
+		84 [label="self.shelves.pop(index)
+return
+"]
+		"84_calls" [label="self.shelves.pop" shape=box]
+		84 -> "84_calls" [label=calls style=dashed]
+		83 -> 84 [label="user_input == '4'"]
+		86 [label="if user_input == '0':
+"]
+		87 [label=return
+]
+		86 -> 87 [label="user_input == '0'"]
+		89 [label="print('Invalid')
+"]
+		"89_calls" [label=print shape=box]
+		89 -> "89_calls" [label=calls style=dashed]
+		89 -> 72 [label=""]
+		86 -> 89 [label="(user_input != '0')"]
+		83 -> 86 [label="(user_input != '4')"]
+		80 -> 83 [label="(user_input != '3')"]
+		77 -> 80 [label="(user_input != '2')"]
+		73 -> 77 [label="(user_input != '1')"]
+		72 -> 73 [label=True]
+		70 -> 72 [label=""]
+		68 -> 70 [label="(not (index <= 0 or index > len(self.shelves)))"]
+		66 -> 68 [label="(not not index.isnumeric())"]
+		65 -> 66 [label=""]
+		63 -> 65 [label=""]
+		62 -> 63 [label=""]
+	}
+	subgraph clusteredit_items {
+		graph [label=edit_items]
+		101 [label="ui = UI()
+index = 1
+"]
+		"101_calls" [label=UI shape=box]
+		101 -> "101_calls" [label=calls style=dashed]
+		102 [label="for risk in self.item_risks:
+"]
+		103 [label="print(
+    f'{index}. Risk: {risk.name}, Probability (1-100%): {risk.probability}, Time penalty: {risk.magnitude}, Risk Type: {risk.type}'
+    )
+index += 1
+"]
+		"103_calls" [label=print shape=box]
+		103 -> "103_calls" [label=calls style=dashed]
+		103 -> 102 [label=""]
+		102 -> 103 [label="self.item_risks"]
+		104 [label="index = input('Risk to Edit: ')
+"]
+		"104_calls" [label=input shape=box]
+		104 -> "104_calls" [label=calls style=dashed]
+		105 [label="while not index.isnumeric():
+"]
+		106 [label="print('Enter a valid number or enter 0 to exit')
+index = input('Risk to Edit: ')
+"]
+		"106_calls" [label="print
+input" shape=box]
+		106 -> "106_calls" [label=calls style=dashed]
+		106 -> 105 [label=""]
+		105 -> 106 [label="not index.isnumeric()"]
+		107 [label="index = int(index)
+if index <= 0 or index > len(self.item_risks):
+"]
+		"107_calls" [label=int shape=box]
+		107 -> "107_calls" [label=calls style=dashed]
+		108 [label=return
+]
+		107 -> 108 [label="index <= 0 or index > len(self.item_risks)"]
+		109 [label="risk = self.item_risks[index - 1]
+"]
+		111 [label="while True:
+"]
+		112 [label="print(ui.UI(15, [risk.name, risk.probability, risk.magnitude]))
+user_input = input(': ')
+if user_input == '1':
+"]
+		"112_calls" [label="print
+input" shape=box]
+		112 -> "112_calls" [label=calls style=dashed]
+		114 [label="risk.name = input('Name: ')
+"]
+		"114_calls" [label=input shape=box]
+		114 -> "114_calls" [label=calls style=dashed]
+		114 -> 111 [label=""]
+		112 -> 114 [label="user_input == '1'"]
+		116 [label="if user_input == '2':
+"]
+		117 [label="user_input = input('Probability: ')
+if user_input.isnumeric():
+"]
+		"117_calls" [label=input shape=box]
+		117 -> "117_calls" [label=calls style=dashed]
+		133 [label="risk.probability = int(user_input) / 100
+"]
+		"133_calls" [label=int shape=box]
+		133 -> "133_calls" [label=calls style=dashed]
+		133 -> 111 [label=""]
+		117 -> 133 [label="user_input.isnumeric()"]
+		135 [label="print('Invalid')
+"]
+		"135_calls" [label=print shape=box]
+		135 -> "135_calls" [label=calls style=dashed]
+		135 -> 111 [label=""]
+		117 -> 135 [label="(not user_input.isnumeric())"]
+		116 -> 117 [label="user_input == '2'"]
+		119 [label="if user_input == '3':
+"]
+		120 [label="user_input = input('Time penalty: ')
+if user_input.isnumeric():
+"]
+		"120_calls" [label=input shape=box]
+		120 -> "120_calls" [label=calls style=dashed]
+		130 [label="risk.magnitude = int(user_input)
+"]
+		"130_calls" [label=int shape=box]
+		130 -> "130_calls" [label=calls style=dashed]
+		130 -> 111 [label=""]
+		120 -> 130 [label="user_input.isnumeric()"]
+		132 [label="print('Invalid')
+"]
+		"132_calls" [label=print shape=box]
+		132 -> "132_calls" [label=calls style=dashed]
+		132 -> 111 [label=""]
+		120 -> 132 [label="(not user_input.isnumeric())"]
+		119 -> 120 [label="user_input == '3'"]
+		122 [label="if user_input == '4':
+"]
+		123 [label="self.item_risks.pop(index)
+"]
+		"123_calls" [label="self.item_risks.pop" shape=box]
+		123 -> "123_calls" [label=calls style=dashed]
+		123 -> 111 [label=""]
+		122 -> 123 [label="user_input == '4'"]
+		125 [label="if user_input == '0':
+"]
+		126 [label=return
+]
+		125 -> 126 [label="user_input == '0'"]
+		128 [label="print('Invalid')
+"]
+		"128_calls" [label=print shape=box]
+		128 -> "128_calls" [label=calls style=dashed]
+		128 -> 111 [label=""]
+		125 -> 128 [label="(user_input != '0')"]
+		122 -> 125 [label="(user_input != '4')"]
+		119 -> 122 [label="(user_input != '3')"]
+		116 -> 119 [label="(user_input != '2')"]
+		112 -> 116 [label="(user_input != '1')"]
+		111 -> 112 [label=True]
+		109 -> 111 [label=""]
+		107 -> 109 [label="(not (index <= 0 or index > len(self.item_risks)))"]
+		105 -> 107 [label="(not not index.isnumeric())"]
+		104 -> 105 [label=""]
+		102 -> 104 [label=""]
+		101 -> 102 [label=""]
+	}
+	subgraph clusteredit_time_on_shelf {
+		graph [label=edit_time_on_shelf]
+		138 [label="while True:
+"]
+		139 [label="print(f'1. Average item time on shelves: {self.avg_shelfed} seconds')
+print('0. Back')
+user_input = input(': ')
+if user_input == '1':
+"]
+		"139_calls" [label="print
+print
+input" shape=box]
+		139 -> "139_calls" [label=calls style=dashed]
+		141 [label="user_input = input('Average item time on shelves: ')
+if user_input.isnumeric():
+"]
+		"141_calls" [label=input shape=box]
+		141 -> "141_calls" [label=calls style=dashed]
+		148 [label="self.avg_shelfed = int(user_input)
+"]
+		"148_calls" [label=int shape=box]
+		148 -> "148_calls" [label=calls style=dashed]
+		148 -> 138 [label=""]
+		141 -> 148 [label="user_input.isnumeric()"]
+		150 [label="print('Invalid')
+"]
+		"150_calls" [label=print shape=box]
+		150 -> "150_calls" [label=calls style=dashed]
+		150 -> 138 [label=""]
+		141 -> 150 [label="(not user_input.isnumeric())"]
+		139 -> 141 [label="user_input == '1'"]
+		143 [label="if user_input == '0':
+"]
+		144 [label=return
+]
+		143 -> 144 [label="user_input == '0'"]
+		146 [label="print('Invalid')
+"]
+		"146_calls" [label=print shape=box]
+		146 -> "146_calls" [label=calls style=dashed]
+		146 -> 138 [label=""]
+		143 -> 146 [label="(user_input != '0')"]
+		139 -> 143 [label="(user_input != '1')"]
+		138 -> 139 [label=True]
+	}
+	subgraph clustercreate_worker_lst {
+		graph [label=create_worker_lst]
+		153 [label="\"\"\"Create one or multiple workers and add them to the warehouse\"\"\"
+"]
+		154 [label="for i in range(amount):
+"]
+		155 [label="self.workers.append(worker(scan_time, speed, item_handeling_time, i, Store(1)))
+"]
+		"155_calls" [label="self.workers.append" shape=box]
+		155 -> "155_calls" [label=calls style=dashed]
+		155 -> 154 [label=""]
+		154 -> 155 [label="range(amount)"]
+		153 -> 154 [label=""]
+	}
+	subgraph clustercreate_item {
+		graph [label=create_item]
+		159 [label="\"\"\"Returns an item with the avalible risks\"\"\"
+temp_risk = []
+"]
+		160 [label="for irisk in self.item_risks:
+"]
+		161 [label="if irisk.type == 'handeling':
+"]
+		163 [label="if random.uniform(0, 1) < irisk.probability:
+"]
+		166 [label="temp_risk.append(irisk)
+"]
+		"166_calls" [label="temp_risk.append" shape=box]
+		166 -> "166_calls" [label=calls style=dashed]
+		166 -> 160 [label=""]
+		163 -> 166 [label="random.uniform(0, 1) < irisk.probability"]
+		163 -> 160 [label="(random.uniform(0, 1) >= irisk.probability)"]
+		161 -> 163 [label="irisk.type == 'handeling'"]
+		165 [label="temp_risk.append(irisk)
+"]
+		"165_calls" [label="temp_risk.append" shape=box]
+		165 -> "165_calls" [label=calls style=dashed]
+		165 -> 160 [label=""]
+		161 -> 165 [label="(irisk.type != 'handeling')"]
+		160 -> 161 [label="self.item_risks"]
+		162 [label="final_risk_lst = []
+"]
+		168 [label="for i in temp_risk:
+"]
+		169 [label="final_risk_lst.append(risk(i.name, i.type, i.probability, i.magnitude))
+"]
+		"169_calls" [label="final_risk_lst.append" shape=box]
+		169 -> "169_calls" [label=calls style=dashed]
+		169 -> 168 [label=""]
+		168 -> 169 [label=temp_risk]
+		170 [label="return item(final_risk_lst, self.env.now)
+"]
+		168 -> 170 [label=""]
+		162 -> 168 [label=""]
+		160 -> 162 [label=""]
+		159 -> 160 [label=""]
+	}
+	subgraph clustercreate_shelf {
+		graph [label=create_shelf]
+		174 [label="\"\"\"Creates a shelf and appends it to the warehouse\"\"\"
+self.shelves.append(shelf(len(self.shelves), Store(capacity),
+    distance_from_arrivals, distance_from_departure))
+"]
+		"174_calls" [label="self.shelves.append" shape=box]
+		174 -> "174_calls" [label=calls style=dashed]
+	}
+	subgraph clustercreate_arrivals {
+		graph [label=create_arrivals]
+		177 [label="\"\"\"Creates arrivals\"\"\"
+self.arrivals = shelf(0, Store(capacity))
+"]
+		"177_calls" [label=shelf shape=box]
+		177 -> "177_calls" [label=calls style=dashed]
+	}
+	subgraph clustercreate_departures {
+		graph [label=create_departures]
+		180 [label="\"\"\"Creates departures\"\"\"
+self.departures = shelf(0, Store(-1))
+"]
+		"180_calls" [label=shelf shape=box]
+		180 -> "180_calls" [label=calls style=dashed]
+	}
+	subgraph clustergen_items {
+		graph [label=gen_items]
+		183 [label="\"\"\"Generates items into arrivals\"\"\"
+"]
+		184 [label="while True:
+"]
+		185 [label="yield self.env.timeout(frequency)
+"]
+		187 [label="itm = self.create_item()
+self.arrivals.store.put(itm)
+"]
+		"187_calls" [label="self.create_item
+self.arrivals.store.put" shape=box]
+		187 -> "187_calls" [label=calls style=dashed]
+		187 -> 184 [label=""]
+		185 -> 187 [label=""]
+		184 -> 185 [label=True]
+		183 -> 184 [label=""]
+	}
+	subgraph clusterget_progress {
+		graph [label=get_progress]
+		190 [label="\"\"\"Prints the progress of the simulation\"\"\"
+"]
+		191 [label="while True:
+"]
+		192 [label="yield self.env.timeout(1)
+"]
+		194 [label="time = self.env.now / sim_time * 100
+if self.progress < time:
+"]
+		195 [label="print(f'Progress: {int(time)}%')
+self.progress += 10
+"]
+		"195_calls" [label=print shape=box]
+		195 -> "195_calls" [label=calls style=dashed]
+		195 -> 191 [label=""]
+		194 -> 195 [label="self.progress < time"]
+		194 -> 191 [label="(self.progress >= time)"]
+		192 -> 194 [label=""]
+		191 -> 192 [label=True]
+		190 -> 191 [label=""]
+	}
+	subgraph clusterrun {
+		graph [label=run]
+		199 [label="\"\"\"The main function to contoll the simulation\"\"\"
+"]
+		200 [label="while True:
+"]
+		201 [label="free_workers = []
+"]
+		203 [label="for w in self.workers:
+"]
+		204 [label="if w.is_waiting():
+"]
+		206 [label="free_workers.append(w)
+"]
+		"206_calls" [label="free_workers.append" shape=box]
+		206 -> "206_calls" [label=calls style=dashed]
+		206 -> 203 [label=""]
+		204 -> 206 [label="w.is_waiting()"]
+		204 -> 203 [label="(not w.is_waiting())"]
+		203 -> 204 [label="self.workers"]
+		205 [label="free_shelves = []
+"]
+		208 [label="for s in self.shelves:
+"]
+		209 [label="if not s.is_full():
+"]
+		211 [label="free_shelves.append(s)
+"]
+		"211_calls" [label="free_shelves.append" shape=box]
+		211 -> "211_calls" [label=calls style=dashed]
+		211 -> 208 [label=""]
+		209 -> 211 [label="not s.is_full()"]
+		209 -> 208 [label="(not not s.is_full())"]
+		208 -> 209 [label="self.shelves"]
+		210 [label="if free_workers:
+"]
+		213 [label="if random.randint(1, 2) == 1:
+"]
+		215 [label="for shlf in self.shelves:
+"]
+		220 [label="chosen_one = random.choice(free_workers)
+itm = shlf.item_to_be_moved(self.env, chosen_one)
+if itm:
+"]
+		"220_calls" [label="random.choice
+shlf.item_to_be_moved" shape=box]
+		220 -> "220_calls" [label=calls style=dashed]
+		222 [label="chosen_one.move(self.env, shlf.distance_from_arrivals + shlf.
+    distance_from_departure, self.departures, itm, no_scanning)
+itm.exited = self.env.now + chosen_one.time_for_item(itm, shlf.
+    distance_from_arrivals + shlf.distance_from_departure, no_scanning
+    ) + self.avg_shelfed
+"]
+		"222_calls" [label="chosen_one.move
+chosen_one.time_for_item" shape=box]
+		222 -> "222_calls" [label=calls style=dashed]
+		214 [label="yield self.env.timeout(0.1)
+"]
+		214 -> 200 [label=""]
+		222 -> 214 [label=""]
+		220 -> 222 [label=itm]
+		220 -> 215 [label="(not itm)"]
+		215 -> 220 [label="self.shelves"]
+		215 -> 214 [label=""]
+		213 -> 215 [label="random.randint(1, 2) == 1"]
+		217 [label="if not self.arrivals.is_empty() and free_shelves:
+"]
+		218 [label="chosen_one = random.choice(free_workers)
+chosen_shelf = random.choice(free_shelves)
+itm = self.arrivals.store.get()
+chosen_one.move(self.env, chosen_shelf.distance_from_arrivals, chosen_shelf,
+    itm, no_scanning)
+itm.when_to_move += self.avg_shelfed + self.env.now
+"]
+		"218_calls" [label="random.choice
+random.choice
+self.arrivals.store.get
+chosen_one.move" shape=box]
+		218 -> "218_calls" [label=calls style=dashed]
+		218 -> 214 [label=""]
+		217 -> 218 [label="not self.arrivals.is_empty() and free_shelves"]
+		217 -> 214 [label="(not (not self.arrivals.is_empty() and free_shelves))"]
+		213 -> 217 [label="(random.randint(1, 2) != 1)"]
+		210 -> 213 [label=free_workers]
+		210 -> 214 [label="(not free_workers)"]
+		208 -> 210 [label=""]
+		205 -> 208 [label=""]
+		203 -> 205 [label=""]
+		201 -> 203 [label=""]
+		200 -> 201 [label=True]
+		199 -> 200 [label=""]
+	}
+	subgraph clustersimulate {
+		graph [label=simulate]
+		227 [label="\"\"\"Simulates sim_time number of seconds with items arraving and departing based on arrivals_freq\"\"\"
+self.progress = 10
+"]
+		228 [label="for shlf in self.shelves:
+"]
+		229 [label="shlf.store.empty()
+"]
+		"229_calls" [label="shlf.store.empty" shape=box]
+		229 -> "229_calls" [label=calls style=dashed]
+		229 -> 228 [label=""]
+		228 -> 229 [label="self.shelves"]
+		230 [label="self.arrivals.store.empty()
+self.departures.store.empty()
+tempw = self.workers[:]
+self.workers = []
+"]
+		"230_calls" [label="self.arrivals.store.empty
+self.departures.store.empty" shape=box]
+		230 -> "230_calls" [label=calls style=dashed]
+		231 [label="for w in tempw:
+"]
+		232 [label="self.create_worker_lst(1, w.scan_time, w.speed, w.item_handeling_time)
+"]
+		"232_calls" [label="self.create_worker_lst" shape=box]
+		232 -> "232_calls" [label=calls style=dashed]
+		232 -> 231 [label=""]
+		231 -> 232 [label=tempw]
+		233 [label="for wor in self.workers:
+"]
+		234 [label="wor.inventory.empty()
+"]
+		"234_calls" [label="wor.inventory.empty" shape=box]
+		234 -> "234_calls" [label=calls style=dashed]
+		234 -> 233 [label=""]
+		233 -> 234 [label="self.workers"]
+		235 [label="self.env = simpy.Environment()
+self.env.process(self.gen_items(arrivals_freq))
+self.env.process(self.run(no_scanning))
+self.env.process(self.get_progress(sim_time))
+self.env.run(until=sim_time)
+ret_val = 0
+avr_time_scanning = 0
+tot_time_items = 0
+"]
+		"235_calls" [label="simpy.Environment
+self.env.process
+self.env.process
+self.env.process
+self.env.run" shape=box]
+		235 -> "235_calls" [label=calls style=dashed]
+		236 [label="for itm in self.departures.store.items:
+"]
+		237 [label="tot_time_items += itm.exited - itm.enterd
+"]
+		237 -> 236 [label=""]
+		236 -> 237 [label="self.departures.store.items"]
+		238 [label="if not len(self.departures.store.items) == 0:
+"]
+		239 [label="ret_val = tot_time_items / len(self.departures.store.items)
+"]
+		"239_calls" [label=len shape=box]
+		239 -> "239_calls" [label=calls style=dashed]
+		240 [label="avr_time_scanning = 0
+"]
+		241 [label="for worker in self.workers:
+"]
+		242 [label="avr_time_scanning = worker.time_spent_scanning
+"]
+		242 -> 241 [label=""]
+		241 -> 242 [label="self.workers"]
+		243 [label="if not len(self.workers) == 0:
+"]
+		244 [label="avr_time_scanning = avr_time_scanning / len(self.workers)
+"]
+		"244_calls" [label=len shape=box]
+		244 -> "244_calls" [label=calls style=dashed]
+		245 [label="return [ret_val, avr_time_scanning]
+"]
+		244 -> 245 [label=""]
+		243 -> 244 [label="not len(self.workers) == 0"]
+		243 -> 245 [label="(not not len(self.workers) == 0)"]
+		241 -> 243 [label=""]
+		240 -> 241 [label=""]
+		239 -> 240 [label=""]
+		238 -> 239 [label="not len(self.departures.store.items) == 0"]
+		238 -> 240 [label="(not not len(self.departures.store.items) == 0)"]
+		236 -> 238 [label=""]
+		235 -> 236 [label=""]
+		233 -> 235 [label=""]
+		231 -> 233 [label=""]
+		230 -> 231 [label=""]
+		228 -> 230 [label=""]
+		227 -> 228 [label=""]
+	}
+}

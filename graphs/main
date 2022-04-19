@@ -1,0 +1,1362 @@
+digraph "clustergraphs/main" {
+	graph [label="graphs/main"]
+	1 [label="import random
+from re import T
+from source.warehouse import *
+from source.item import *
+from source.shelf import *
+from source.risk import *
+from source.UI import *
+from importexport import *
+time_modifier = 0.1
+item_risks = [['Fragile', 'moving', 0.15, 20]]
+global_risks = [['Missplace', 'handeling', 0.1, 10], ['Scanning Error',
+    'scanning', 0.1, 5]]
+def main():...
+main()
+"]
+	"1_calls" [label=main shape=box]
+	1 -> "1_calls" [label=calls style=dashed]
+	subgraph clustermain {
+		graph [label=main]
+		3 [label="switch = True
+ui = UI()
+wh = warehouse()
+"]
+		"3_calls" [label="UI
+warehouse" shape=box]
+		3 -> "3_calls" [label=calls style=dashed]
+		4 [label="while switch:
+"]
+		5 [label="print(ui.UI(0, None))
+user_input = input(':')
+if user_input == '1':
+"]
+		"5_calls" [label="print
+input" shape=box]
+		5 -> "5_calls" [label=calls style=dashed]
+		7 [label="while switch:
+"]
+		81 [label="print(ui.UI(1, None))
+user_input = input(':')
+if user_input == '1':
+"]
+		"81_calls" [label="print
+input" shape=box]
+		81 -> "81_calls" [label=calls style=dashed]
+		83 [label="while switch:
+"]
+		286 [label="print(ui.UI(2, None))
+user_input = input(':')
+if user_input == '1':
+"]
+		"286_calls" [label="print
+input" shape=box]
+		286 -> "286_calls" [label=calls style=dashed]
+		288 [label="options = [-1, -1, -1, -1]
+"]
+		333 [label="while switch:
+"]
+		334 [label="print(ui.UI(3, options))
+user_input = input(':')
+if user_input == '1':
+"]
+		"334_calls" [label="print
+input" shape=box]
+		334 -> "334_calls" [label=calls style=dashed]
+		336 [label="while switch:
+"]
+		372 [label="inval = input('Amount: ')
+if inval.isnumeric():
+"]
+		"372_calls" [label=input shape=box]
+		372 -> "372_calls" [label=calls style=dashed]
+		374 [label="options[0] = int(inval)
+switch = False
+"]
+		"374_calls" [label=int shape=box]
+		374 -> "374_calls" [label=calls style=dashed]
+		374 -> 336 [label=""]
+		372 -> 374 [label="inval.isnumeric()"]
+		376 [label="print('Invalid')
+"]
+		"376_calls" [label=print shape=box]
+		376 -> "376_calls" [label=calls style=dashed]
+		376 -> 336 [label=""]
+		372 -> 376 [label="(not inval.isnumeric())"]
+		336 -> 372 [label=switch]
+		373 [label="switch = True
+"]
+		373 -> 333 [label=""]
+		336 -> 373 [label="(not switch)"]
+		334 -> 336 [label="user_input == '1'"]
+		338 [label="if user_input == '2':
+"]
+		339 [label="while switch:
+"]
+		367 [label="inval = input('Scan Time: ')
+if inval.isnumeric():
+"]
+		"367_calls" [label=input shape=box]
+		367 -> "367_calls" [label=calls style=dashed]
+		369 [label="options[1] = int(inval)
+switch = False
+"]
+		"369_calls" [label=int shape=box]
+		369 -> "369_calls" [label=calls style=dashed]
+		369 -> 339 [label=""]
+		367 -> 369 [label="inval.isnumeric()"]
+		371 [label="print('Invalid')
+"]
+		"371_calls" [label=print shape=box]
+		371 -> "371_calls" [label=calls style=dashed]
+		371 -> 339 [label=""]
+		367 -> 371 [label="(not inval.isnumeric())"]
+		339 -> 367 [label=switch]
+		368 [label="switch = True
+"]
+		368 -> 333 [label=""]
+		339 -> 368 [label="(not switch)"]
+		338 -> 339 [label="user_input == '2'"]
+		341 [label="if user_input == '3':
+"]
+		342 [label="while switch:
+"]
+		362 [label="inval = input('Walking Speed: ')
+if inval.isnumeric():
+"]
+		"362_calls" [label=input shape=box]
+		362 -> "362_calls" [label=calls style=dashed]
+		364 [label="options[2] = int(inval)
+switch = False
+"]
+		"364_calls" [label=int shape=box]
+		364 -> "364_calls" [label=calls style=dashed]
+		364 -> 342 [label=""]
+		362 -> 364 [label="inval.isnumeric()"]
+		366 [label="print('Invalid')
+"]
+		"366_calls" [label=print shape=box]
+		366 -> "366_calls" [label=calls style=dashed]
+		366 -> 342 [label=""]
+		362 -> 366 [label="(not inval.isnumeric())"]
+		342 -> 362 [label=switch]
+		363 [label="switch = True
+"]
+		363 -> 333 [label=""]
+		342 -> 363 [label="(not switch)"]
+		341 -> 342 [label="user_input == '3'"]
+		344 [label="if user_input == '4':
+"]
+		345 [label="while switch:
+"]
+		357 [label="inval = input('Item handeling speed: ')
+if inval.isnumeric():
+"]
+		"357_calls" [label=input shape=box]
+		357 -> "357_calls" [label=calls style=dashed]
+		359 [label="options[3] = int(inval)
+switch = False
+"]
+		"359_calls" [label=int shape=box]
+		359 -> "359_calls" [label=calls style=dashed]
+		359 -> 345 [label=""]
+		357 -> 359 [label="inval.isnumeric()"]
+		361 [label="print('Invalid')
+"]
+		"361_calls" [label=print shape=box]
+		361 -> "361_calls" [label=calls style=dashed]
+		361 -> 345 [label=""]
+		357 -> 361 [label="(not inval.isnumeric())"]
+		345 -> 357 [label=switch]
+		358 [label="switch = True
+"]
+		358 -> 333 [label=""]
+		345 -> 358 [label="(not switch)"]
+		344 -> 345 [label="user_input == '4'"]
+		347 [label="if user_input == '5':
+"]
+		348 [label="if -1 not in options:
+"]
+		354 [label="wh.create_worker_lst(options[0], options[1], options[2], options[3])
+options = [-1, -1, -1, -1]
+print('Done')
+"]
+		"354_calls" [label="wh.create_worker_lst
+print" shape=box]
+		354 -> "354_calls" [label=calls style=dashed]
+		354 -> 333 [label=""]
+		348 -> 354 [label="-1 not in options"]
+		356 [label="print('Invalid')
+"]
+		"356_calls" [label=print shape=box]
+		356 -> "356_calls" [label=calls style=dashed]
+		356 -> 333 [label=""]
+		348 -> 356 [label="(-1 in options)"]
+		347 -> 348 [label="user_input == '5'"]
+		350 [label="if user_input == '0':
+"]
+		351 [label="switch = False
+"]
+		351 -> 333 [label=""]
+		350 -> 351 [label="user_input == '0'"]
+		353 [label="print('Invalid Input')
+"]
+		"353_calls" [label=print shape=box]
+		353 -> "353_calls" [label=calls style=dashed]
+		353 -> 333 [label=""]
+		350 -> 353 [label="(user_input != '0')"]
+		347 -> 350 [label="(user_input != '5')"]
+		344 -> 347 [label="(user_input != '4')"]
+		341 -> 344 [label="(user_input != '3')"]
+		338 -> 341 [label="(user_input != '2')"]
+		334 -> 338 [label="(user_input != '1')"]
+		333 -> 334 [label=switch]
+		335 [label="switch = True
+"]
+		335 -> 83 [label=""]
+		333 -> 335 [label="(not switch)"]
+		288 -> 333 [label=""]
+		286 -> 288 [label="user_input == '1'"]
+		290 [label="if user_input == '2':
+"]
+		291 [label="options = [-1, -1, -1]
+"]
+		297 [label="while switch:
+"]
+		298 [label="print(ui.UI(4, options))
+user_input = input(':')
+if user_input == '1':
+"]
+		"298_calls" [label="print
+input" shape=box]
+		298 -> "298_calls" [label=calls style=dashed]
+		300 [label="while switch:
+"]
+		328 [label="inval = input('Scan Time: ')
+if inval.isnumeric():
+"]
+		"328_calls" [label=input shape=box]
+		328 -> "328_calls" [label=calls style=dashed]
+		330 [label="options[0] = int(inval)
+switch = False
+"]
+		"330_calls" [label=int shape=box]
+		330 -> "330_calls" [label=calls style=dashed]
+		330 -> 300 [label=""]
+		328 -> 330 [label="inval.isnumeric()"]
+		332 [label="print('Invalid')
+"]
+		"332_calls" [label=print shape=box]
+		332 -> "332_calls" [label=calls style=dashed]
+		332 -> 300 [label=""]
+		328 -> 332 [label="(not inval.isnumeric())"]
+		300 -> 328 [label=switch]
+		329 [label="switch = True
+"]
+		329 -> 297 [label=""]
+		300 -> 329 [label="(not switch)"]
+		298 -> 300 [label="user_input == '1'"]
+		302 [label="if user_input == '2':
+"]
+		303 [label="while switch:
+"]
+		323 [label="inval = input('Walking Speed: ')
+if inval.isnumeric():
+"]
+		"323_calls" [label=input shape=box]
+		323 -> "323_calls" [label=calls style=dashed]
+		325 [label="options[1] = int(inval)
+switch = False
+"]
+		"325_calls" [label=int shape=box]
+		325 -> "325_calls" [label=calls style=dashed]
+		325 -> 303 [label=""]
+		323 -> 325 [label="inval.isnumeric()"]
+		327 [label="print('Invalid')
+"]
+		"327_calls" [label=print shape=box]
+		327 -> "327_calls" [label=calls style=dashed]
+		327 -> 303 [label=""]
+		323 -> 327 [label="(not inval.isnumeric())"]
+		303 -> 323 [label=switch]
+		324 [label="switch = True
+"]
+		324 -> 297 [label=""]
+		303 -> 324 [label="(not switch)"]
+		302 -> 303 [label="user_input == '2'"]
+		305 [label="if user_input == '3':
+"]
+		306 [label="while switch:
+"]
+		318 [label="inval = input('Item handeling speed: ')
+if inval.isnumeric():
+"]
+		"318_calls" [label=input shape=box]
+		318 -> "318_calls" [label=calls style=dashed]
+		320 [label="options[2] = int(inval)
+switch = False
+"]
+		"320_calls" [label=int shape=box]
+		320 -> "320_calls" [label=calls style=dashed]
+		320 -> 306 [label=""]
+		318 -> 320 [label="inval.isnumeric()"]
+		322 [label="print('Invalid')
+"]
+		"322_calls" [label=print shape=box]
+		322 -> "322_calls" [label=calls style=dashed]
+		322 -> 306 [label=""]
+		318 -> 322 [label="(not inval.isnumeric())"]
+		306 -> 318 [label=switch]
+		319 [label="switch = True
+"]
+		319 -> 297 [label=""]
+		306 -> 319 [label="(not switch)"]
+		305 -> 306 [label="user_input == '3'"]
+		308 [label="if user_input == '4':
+"]
+		309 [label="if -1 not in options:
+"]
+		315 [label="wh.create_worker_lst(1, options[0], options[1], options[2])
+options = [-1, -1, -1]
+print('Done')
+"]
+		"315_calls" [label="wh.create_worker_lst
+print" shape=box]
+		315 -> "315_calls" [label=calls style=dashed]
+		315 -> 297 [label=""]
+		309 -> 315 [label="-1 not in options"]
+		317 [label="print('Invalid')
+"]
+		"317_calls" [label=print shape=box]
+		317 -> "317_calls" [label=calls style=dashed]
+		317 -> 297 [label=""]
+		309 -> 317 [label="(-1 in options)"]
+		308 -> 309 [label="user_input == '4'"]
+		311 [label="if user_input == '0':
+"]
+		312 [label="switch = False
+"]
+		312 -> 297 [label=""]
+		311 -> 312 [label="user_input == '0'"]
+		314 [label="print('Invalid Input')
+"]
+		"314_calls" [label=print shape=box]
+		314 -> "314_calls" [label=calls style=dashed]
+		314 -> 297 [label=""]
+		311 -> 314 [label="(user_input != '0')"]
+		308 -> 311 [label="(user_input != '4')"]
+		305 -> 308 [label="(user_input != '3')"]
+		302 -> 305 [label="(user_input != '2')"]
+		298 -> 302 [label="(user_input != '1')"]
+		297 -> 298 [label=switch]
+		299 [label="switch = True
+"]
+		299 -> 83 [label=""]
+		297 -> 299 [label="(not switch)"]
+		291 -> 297 [label=""]
+		290 -> 291 [label="user_input == '2'"]
+		293 [label="if user_input == '0':
+"]
+		294 [label="switch = False
+"]
+		294 -> 83 [label=""]
+		293 -> 294 [label="user_input == '0'"]
+		296 [label="print('Invalid Input')
+"]
+		"296_calls" [label=print shape=box]
+		296 -> "296_calls" [label=calls style=dashed]
+		296 -> 83 [label=""]
+		293 -> 296 [label="(user_input != '0')"]
+		290 -> 293 [label="(user_input != '2')"]
+		286 -> 290 [label="(user_input != '1')"]
+		83 -> 286 [label=switch]
+		287 [label="switch = True
+"]
+		287 -> 7 [label=""]
+		83 -> 287 [label="(not switch)"]
+		81 -> 83 [label="user_input == '1'"]
+		85 [label="if user_input == '2':
+"]
+		86 [label="options = [-1]
+"]
+		267 [label="while switch:
+"]
+		268 [label="print(ui.UI(5, options))
+user_input = input(':')
+if user_input == '1':
+"]
+		"268_calls" [label="print
+input" shape=box]
+		268 -> "268_calls" [label=calls style=dashed]
+		270 [label="while switch:
+"]
+		281 [label="inval = input('Arrivals capacity: ')
+if inval.isnumeric():
+"]
+		"281_calls" [label=input shape=box]
+		281 -> "281_calls" [label=calls style=dashed]
+		283 [label="options[0] = int(inval)
+switch = False
+"]
+		"283_calls" [label=int shape=box]
+		283 -> "283_calls" [label=calls style=dashed]
+		283 -> 270 [label=""]
+		281 -> 283 [label="inval.isnumeric()"]
+		285 [label="print('Invalid')
+"]
+		"285_calls" [label=print shape=box]
+		285 -> "285_calls" [label=calls style=dashed]
+		285 -> 270 [label=""]
+		281 -> 285 [label="(not inval.isnumeric())"]
+		270 -> 281 [label=switch]
+		282 [label="switch = True
+"]
+		282 -> 267 [label=""]
+		270 -> 282 [label="(not switch)"]
+		268 -> 270 [label="user_input == '1'"]
+		272 [label="if user_input == '2':
+"]
+		273 [label="if -1 not in options:
+"]
+		279 [label="wh.create_arrivals(options[0])
+wh.create_departures()
+print('Done')
+"]
+		"279_calls" [label="wh.create_arrivals
+wh.create_departures
+print" shape=box]
+		279 -> "279_calls" [label=calls style=dashed]
+		279 -> 267 [label=""]
+		273 -> 279 [label="-1 not in options"]
+		273 -> 267 [label="(-1 in options)"]
+		272 -> 273 [label="user_input == '2'"]
+		275 [label="if user_input == '0':
+"]
+		276 [label="switch = False
+"]
+		276 -> 267 [label=""]
+		275 -> 276 [label="user_input == '0'"]
+		278 [label="print('Invalid')
+"]
+		"278_calls" [label=print shape=box]
+		278 -> "278_calls" [label=calls style=dashed]
+		278 -> 267 [label=""]
+		275 -> 278 [label="(user_input != '0')"]
+		272 -> 275 [label="(user_input != '2')"]
+		268 -> 272 [label="(user_input != '1')"]
+		267 -> 268 [label=switch]
+		269 [label="switch = True
+"]
+		269 -> 7 [label=""]
+		267 -> 269 [label="(not switch)"]
+		86 -> 267 [label=""]
+		85 -> 86 [label="user_input == '2'"]
+		88 [label="if user_input == '3':
+"]
+		89 [label="options = [-1, -1, -1]
+"]
+		232 [label="while switch:
+"]
+		233 [label="print(ui.UI(6, options))
+user_input = input(':')
+if user_input == '1':
+"]
+		"233_calls" [label="print
+input" shape=box]
+		233 -> "233_calls" [label=calls style=dashed]
+		235 [label="while switch:
+"]
+		262 [label="inval = input('Shelf capacity: ')
+if inval.isnumeric():
+"]
+		"262_calls" [label=input shape=box]
+		262 -> "262_calls" [label=calls style=dashed]
+		264 [label="options[0] = int(inval)
+switch = False
+"]
+		"264_calls" [label=int shape=box]
+		264 -> "264_calls" [label=calls style=dashed]
+		264 -> 235 [label=""]
+		262 -> 264 [label="inval.isnumeric()"]
+		266 [label="print('Invalid')
+"]
+		"266_calls" [label=print shape=box]
+		266 -> "266_calls" [label=calls style=dashed]
+		266 -> 235 [label=""]
+		262 -> 266 [label="(not inval.isnumeric())"]
+		235 -> 262 [label=switch]
+		263 [label="switch = True
+"]
+		263 -> 232 [label=""]
+		235 -> 263 [label="(not switch)"]
+		233 -> 235 [label="user_input == '1'"]
+		237 [label="if user_input == '2':
+"]
+		238 [label="while switch:
+"]
+		257 [label="inval = input('Distance from arrivals: ')
+if inval.isnumeric():
+"]
+		"257_calls" [label=input shape=box]
+		257 -> "257_calls" [label=calls style=dashed]
+		259 [label="options[1] = int(inval)
+switch = False
+"]
+		"259_calls" [label=int shape=box]
+		259 -> "259_calls" [label=calls style=dashed]
+		259 -> 238 [label=""]
+		257 -> 259 [label="inval.isnumeric()"]
+		261 [label="print('Invalid')
+"]
+		"261_calls" [label=print shape=box]
+		261 -> "261_calls" [label=calls style=dashed]
+		261 -> 238 [label=""]
+		257 -> 261 [label="(not inval.isnumeric())"]
+		238 -> 257 [label=switch]
+		258 [label="switch = True
+"]
+		258 -> 232 [label=""]
+		238 -> 258 [label="(not switch)"]
+		237 -> 238 [label="user_input == '2'"]
+		240 [label="if user_input == '3':
+"]
+		241 [label="while switch:
+"]
+		252 [label="inval = input('Distance from departures: ')
+if inval.isnumeric():
+"]
+		"252_calls" [label=input shape=box]
+		252 -> "252_calls" [label=calls style=dashed]
+		254 [label="options[2] = int(inval)
+switch = False
+"]
+		"254_calls" [label=int shape=box]
+		254 -> "254_calls" [label=calls style=dashed]
+		254 -> 241 [label=""]
+		252 -> 254 [label="inval.isnumeric()"]
+		256 [label="print('Invalid')
+"]
+		"256_calls" [label=print shape=box]
+		256 -> "256_calls" [label=calls style=dashed]
+		256 -> 241 [label=""]
+		252 -> 256 [label="(not inval.isnumeric())"]
+		241 -> 252 [label=switch]
+		253 [label="switch = True
+"]
+		253 -> 232 [label=""]
+		241 -> 253 [label="(not switch)"]
+		240 -> 241 [label="user_input == '3'"]
+		243 [label="if user_input == '4':
+"]
+		244 [label="if -1 not in options:
+"]
+		250 [label="wh.create_shelf(options[0], options[1], options[2])
+options[1] = -1
+options[2] = -1
+print('Done')
+"]
+		"250_calls" [label="wh.create_shelf
+print" shape=box]
+		250 -> "250_calls" [label=calls style=dashed]
+		250 -> 232 [label=""]
+		244 -> 250 [label="-1 not in options"]
+		244 -> 232 [label="(-1 in options)"]
+		243 -> 244 [label="user_input == '4'"]
+		246 [label="if user_input == '0':
+"]
+		247 [label="switch = False
+"]
+		247 -> 232 [label=""]
+		246 -> 247 [label="user_input == '0'"]
+		249 [label="print('Invalid')
+"]
+		"249_calls" [label=print shape=box]
+		249 -> "249_calls" [label=calls style=dashed]
+		249 -> 232 [label=""]
+		246 -> 249 [label="(user_input != '0')"]
+		243 -> 246 [label="(user_input != '4')"]
+		240 -> 243 [label="(user_input != '3')"]
+		237 -> 240 [label="(user_input != '2')"]
+		233 -> 237 [label="(user_input != '1')"]
+		232 -> 233 [label=switch]
+		234 [label="switch = True
+"]
+		234 -> 7 [label=""]
+		232 -> 234 [label="(not switch)"]
+		89 -> 232 [label=""]
+		88 -> 89 [label="user_input == '3'"]
+		91 [label="if user_input == '4':
+"]
+		92 [label="while switch:
+"]
+		113 [label="print(ui.UI(7, None))
+user_input = input(':')
+if user_input == '1':
+"]
+		"113_calls" [label="print
+input" shape=box]
+		113 -> "113_calls" [label=calls style=dashed]
+		115 [label="options = [-1, -1, -1, -1]
+options[0] = 'scanning risks'
+"]
+		197 [label="while switch:
+"]
+		198 [label="print(ui.UI(8, options))
+user_input = input(':')
+if user_input == '1':
+"]
+		"198_calls" [label="print
+input" shape=box]
+		198 -> "198_calls" [label=calls style=dashed]
+		200 [label="while switch:
+"]
+		227 [label="inval = input('Name: ')
+if inval != '':
+"]
+		"227_calls" [label=input shape=box]
+		227 -> "227_calls" [label=calls style=dashed]
+		229 [label="options[1] = inval
+switch = False
+"]
+		229 -> 200 [label=""]
+		227 -> 229 [label="inval != ''"]
+		231 [label="print('Invalid')
+"]
+		"231_calls" [label=print shape=box]
+		231 -> "231_calls" [label=calls style=dashed]
+		231 -> 200 [label=""]
+		227 -> 231 [label="(inval == '')"]
+		200 -> 227 [label=switch]
+		228 [label="switch = True
+"]
+		228 -> 197 [label=""]
+		200 -> 228 [label="(not switch)"]
+		198 -> 200 [label="user_input == '1'"]
+		202 [label="if user_input == '2':
+"]
+		203 [label="while switch:
+"]
+		222 [label="inval = input('Probability: ')
+if inval.isnumeric():
+"]
+		"222_calls" [label=input shape=box]
+		222 -> "222_calls" [label=calls style=dashed]
+		224 [label="options[2] = float(inval)
+switch = False
+"]
+		"224_calls" [label=float shape=box]
+		224 -> "224_calls" [label=calls style=dashed]
+		224 -> 203 [label=""]
+		222 -> 224 [label="inval.isnumeric()"]
+		226 [label="print('Invalid')
+"]
+		"226_calls" [label=print shape=box]
+		226 -> "226_calls" [label=calls style=dashed]
+		226 -> 203 [label=""]
+		222 -> 226 [label="(not inval.isnumeric())"]
+		203 -> 222 [label=switch]
+		223 [label="switch = True
+"]
+		223 -> 197 [label=""]
+		203 -> 223 [label="(not switch)"]
+		202 -> 203 [label="user_input == '2'"]
+		205 [label="if user_input == '3':
+"]
+		206 [label="while switch:
+"]
+		217 [label="inval = input('Time penalty: ')
+if inval.isnumeric():
+"]
+		"217_calls" [label=input shape=box]
+		217 -> "217_calls" [label=calls style=dashed]
+		219 [label="options[3] = int(inval)
+switch = False
+"]
+		"219_calls" [label=int shape=box]
+		219 -> "219_calls" [label=calls style=dashed]
+		219 -> 206 [label=""]
+		217 -> 219 [label="inval.isnumeric()"]
+		221 [label="print('Invalid')
+"]
+		"221_calls" [label=print shape=box]
+		221 -> "221_calls" [label=calls style=dashed]
+		221 -> 206 [label=""]
+		217 -> 221 [label="(not inval.isnumeric())"]
+		206 -> 217 [label=switch]
+		218 [label="switch = True
+"]
+		218 -> 197 [label=""]
+		206 -> 218 [label="(not switch)"]
+		205 -> 206 [label="user_input == '3'"]
+		208 [label="if user_input == '4':
+"]
+		209 [label="if -1 not in options:
+"]
+		214 [label="wh.item_risks.append(risk(options[1], 'scanning', options[2], options[3]))
+print('Done')
+"]
+		"214_calls" [label="wh.item_risks.append
+print" shape=box]
+		214 -> "214_calls" [label=calls style=dashed]
+		214 -> 197 [label=""]
+		209 -> 214 [label="-1 not in options"]
+		216 [label="print('Fill all options')
+"]
+		"216_calls" [label=print shape=box]
+		216 -> "216_calls" [label=calls style=dashed]
+		216 -> 197 [label=""]
+		209 -> 216 [label="(-1 in options)"]
+		208 -> 209 [label="user_input == '4'"]
+		211 [label="if user_input == '0':
+"]
+		212 [label="switch = False
+"]
+		212 -> 197 [label=""]
+		211 -> 212 [label="user_input == '0'"]
+		211 -> 197 [label="(user_input != '0')"]
+		208 -> 211 [label="(user_input != '4')"]
+		205 -> 208 [label="(user_input != '3')"]
+		202 -> 205 [label="(user_input != '2')"]
+		198 -> 202 [label="(user_input != '1')"]
+		197 -> 198 [label=switch]
+		199 [label="switch = True
+"]
+		199 -> 92 [label=""]
+		197 -> 199 [label="(not switch)"]
+		115 -> 197 [label=""]
+		113 -> 115 [label="user_input == '1'"]
+		117 [label="if user_input == '2':
+"]
+		118 [label="options = [-1, -1, -1, -1]
+options[0] = 'moving risks'
+"]
+		162 [label="while switch:
+"]
+		163 [label="print(ui.UI(8, options))
+user_input = input(':')
+if user_input == '1':
+"]
+		"163_calls" [label="print
+input" shape=box]
+		163 -> "163_calls" [label=calls style=dashed]
+		165 [label="while switch:
+"]
+		192 [label="inval = input('Name: ')
+if inval != '':
+"]
+		"192_calls" [label=input shape=box]
+		192 -> "192_calls" [label=calls style=dashed]
+		194 [label="options[1] = inval
+switch = False
+"]
+		194 -> 165 [label=""]
+		192 -> 194 [label="inval != ''"]
+		196 [label="print('Invalid')
+"]
+		"196_calls" [label=print shape=box]
+		196 -> "196_calls" [label=calls style=dashed]
+		196 -> 165 [label=""]
+		192 -> 196 [label="(inval == '')"]
+		165 -> 192 [label=switch]
+		193 [label="switch = True
+"]
+		193 -> 162 [label=""]
+		165 -> 193 [label="(not switch)"]
+		163 -> 165 [label="user_input == '1'"]
+		167 [label="if user_input == '2':
+"]
+		168 [label="while switch:
+"]
+		187 [label="inval = input('Probability: ')
+if inval.isnumeric():
+"]
+		"187_calls" [label=input shape=box]
+		187 -> "187_calls" [label=calls style=dashed]
+		189 [label="options[2] = float(inval)
+switch = False
+"]
+		"189_calls" [label=float shape=box]
+		189 -> "189_calls" [label=calls style=dashed]
+		189 -> 168 [label=""]
+		187 -> 189 [label="inval.isnumeric()"]
+		191 [label="print('Invalid')
+"]
+		"191_calls" [label=print shape=box]
+		191 -> "191_calls" [label=calls style=dashed]
+		191 -> 168 [label=""]
+		187 -> 191 [label="(not inval.isnumeric())"]
+		168 -> 187 [label=switch]
+		188 [label="switch = True
+"]
+		188 -> 162 [label=""]
+		168 -> 188 [label="(not switch)"]
+		167 -> 168 [label="user_input == '2'"]
+		170 [label="if user_input == '3':
+"]
+		171 [label="while switch:
+"]
+		182 [label="inval = input('Time penalty: ')
+if inval.isnumeric():
+"]
+		"182_calls" [label=input shape=box]
+		182 -> "182_calls" [label=calls style=dashed]
+		184 [label="options[3] = int(inval)
+switch = False
+"]
+		"184_calls" [label=int shape=box]
+		184 -> "184_calls" [label=calls style=dashed]
+		184 -> 171 [label=""]
+		182 -> 184 [label="inval.isnumeric()"]
+		186 [label="print('Invalid')
+"]
+		"186_calls" [label=print shape=box]
+		186 -> "186_calls" [label=calls style=dashed]
+		186 -> 171 [label=""]
+		182 -> 186 [label="(not inval.isnumeric())"]
+		171 -> 182 [label=switch]
+		183 [label="switch = True
+"]
+		183 -> 162 [label=""]
+		171 -> 183 [label="(not switch)"]
+		170 -> 171 [label="user_input == '3'"]
+		173 [label="if user_input == '4':
+"]
+		174 [label="if -1 not in options:
+"]
+		179 [label="wh.item_risks.append(risk(options[1], 'moving', options[2], options[3]))
+print('Done')
+"]
+		"179_calls" [label="wh.item_risks.append
+print" shape=box]
+		179 -> "179_calls" [label=calls style=dashed]
+		179 -> 162 [label=""]
+		174 -> 179 [label="-1 not in options"]
+		181 [label="print('Fill all options')
+"]
+		"181_calls" [label=print shape=box]
+		181 -> "181_calls" [label=calls style=dashed]
+		181 -> 162 [label=""]
+		174 -> 181 [label="(-1 in options)"]
+		173 -> 174 [label="user_input == '4'"]
+		176 [label="if user_input == '0':
+"]
+		177 [label="switch = False
+"]
+		177 -> 162 [label=""]
+		176 -> 177 [label="user_input == '0'"]
+		176 -> 162 [label="(user_input != '0')"]
+		173 -> 176 [label="(user_input != '4')"]
+		170 -> 173 [label="(user_input != '3')"]
+		167 -> 170 [label="(user_input != '2')"]
+		163 -> 167 [label="(user_input != '1')"]
+		162 -> 163 [label=switch]
+		164 [label="switch = True
+"]
+		164 -> 92 [label=""]
+		162 -> 164 [label="(not switch)"]
+		118 -> 162 [label=""]
+		117 -> 118 [label="user_input == '2'"]
+		120 [label="if user_input == '3':
+"]
+		121 [label="options = [-1, -1, -1, -1]
+options[0] = 'handeling risks'
+"]
+		127 [label="while switch:
+"]
+		128 [label="print(ui.UI(8, options))
+user_input = input(':')
+if user_input == '1':
+"]
+		"128_calls" [label="print
+input" shape=box]
+		128 -> "128_calls" [label=calls style=dashed]
+		130 [label="while switch:
+"]
+		157 [label="inval = input('Name: ')
+if inval != '':
+"]
+		"157_calls" [label=input shape=box]
+		157 -> "157_calls" [label=calls style=dashed]
+		159 [label="options[1] = inval
+switch = False
+"]
+		159 -> 130 [label=""]
+		157 -> 159 [label="inval != ''"]
+		161 [label="print('Invalid')
+"]
+		"161_calls" [label=print shape=box]
+		161 -> "161_calls" [label=calls style=dashed]
+		161 -> 130 [label=""]
+		157 -> 161 [label="(inval == '')"]
+		130 -> 157 [label=switch]
+		158 [label="switch = True
+"]
+		158 -> 127 [label=""]
+		130 -> 158 [label="(not switch)"]
+		128 -> 130 [label="user_input == '1'"]
+		132 [label="if user_input == '2':
+"]
+		133 [label="while switch:
+"]
+		152 [label="inval = input('Probability: ')
+if inval.isnumeric():
+"]
+		"152_calls" [label=input shape=box]
+		152 -> "152_calls" [label=calls style=dashed]
+		154 [label="options[2] = float(inval)
+switch = False
+"]
+		"154_calls" [label=float shape=box]
+		154 -> "154_calls" [label=calls style=dashed]
+		154 -> 133 [label=""]
+		152 -> 154 [label="inval.isnumeric()"]
+		156 [label="print('Invalid')
+"]
+		"156_calls" [label=print shape=box]
+		156 -> "156_calls" [label=calls style=dashed]
+		156 -> 133 [label=""]
+		152 -> 156 [label="(not inval.isnumeric())"]
+		133 -> 152 [label=switch]
+		153 [label="switch = True
+"]
+		153 -> 127 [label=""]
+		133 -> 153 [label="(not switch)"]
+		132 -> 133 [label="user_input == '2'"]
+		135 [label="if user_input == '3':
+"]
+		136 [label="while switch:
+"]
+		147 [label="inval = input('Time penalty: ')
+if inval.isnumeric():
+"]
+		"147_calls" [label=input shape=box]
+		147 -> "147_calls" [label=calls style=dashed]
+		149 [label="options[3] = int(inval)
+switch = False
+"]
+		"149_calls" [label=int shape=box]
+		149 -> "149_calls" [label=calls style=dashed]
+		149 -> 136 [label=""]
+		147 -> 149 [label="inval.isnumeric()"]
+		151 [label="print('Invalid')
+"]
+		"151_calls" [label=print shape=box]
+		151 -> "151_calls" [label=calls style=dashed]
+		151 -> 136 [label=""]
+		147 -> 151 [label="(not inval.isnumeric())"]
+		136 -> 147 [label=switch]
+		148 [label="switch = True
+"]
+		148 -> 127 [label=""]
+		136 -> 148 [label="(not switch)"]
+		135 -> 136 [label="user_input == '3'"]
+		138 [label="if user_input == '4':
+"]
+		139 [label="if -1 not in options:
+"]
+		144 [label="wh.item_risks.append(risk(options[1], 'handeling', options[2], options[3]))
+print('Done')
+"]
+		"144_calls" [label="wh.item_risks.append
+print" shape=box]
+		144 -> "144_calls" [label=calls style=dashed]
+		144 -> 127 [label=""]
+		139 -> 144 [label="-1 not in options"]
+		146 [label="print('Fill all options')
+"]
+		"146_calls" [label=print shape=box]
+		146 -> "146_calls" [label=calls style=dashed]
+		146 -> 127 [label=""]
+		139 -> 146 [label="(-1 in options)"]
+		138 -> 139 [label="user_input == '4'"]
+		141 [label="if user_input == '0':
+"]
+		142 [label="switch = False
+"]
+		142 -> 127 [label=""]
+		141 -> 142 [label="user_input == '0'"]
+		141 -> 127 [label="(user_input != '0')"]
+		138 -> 141 [label="(user_input != '4')"]
+		135 -> 138 [label="(user_input != '3')"]
+		132 -> 135 [label="(user_input != '2')"]
+		128 -> 132 [label="(user_input != '1')"]
+		127 -> 128 [label=switch]
+		129 [label="switch = True
+"]
+		129 -> 92 [label=""]
+		127 -> 129 [label="(not switch)"]
+		121 -> 127 [label=""]
+		120 -> 121 [label="user_input == '3'"]
+		123 [label="if user_input == '0':
+"]
+		124 [label="switch = False
+"]
+		124 -> 92 [label=""]
+		123 -> 124 [label="user_input == '0'"]
+		126 [label="print('Invalid')
+"]
+		"126_calls" [label=print shape=box]
+		126 -> "126_calls" [label=calls style=dashed]
+		126 -> 92 [label=""]
+		123 -> 126 [label="(user_input != '0')"]
+		120 -> 123 [label="(user_input != '3')"]
+		117 -> 120 [label="(user_input != '2')"]
+		113 -> 117 [label="(user_input != '1')"]
+		92 -> 113 [label=switch]
+		114 [label="switch = True
+"]
+		114 -> 7 [label=""]
+		92 -> 114 [label="(not switch)"]
+		91 -> 92 [label="user_input == '4'"]
+		94 [label="if user_input == '5':
+"]
+		95 [label="while switch:
+"]
+		101 [label="options = [-1]
+print(ui.UI(9, options))
+user_input = input(':')
+if user_input == '1':
+"]
+		"101_calls" [label="print
+input" shape=box]
+		101 -> "101_calls" [label=calls style=dashed]
+		103 [label="while switch:
+"]
+		108 [label="inval = input('Shelf time: ')
+if inval.isnumeric():
+"]
+		"108_calls" [label=input shape=box]
+		108 -> "108_calls" [label=calls style=dashed]
+		110 [label="options[0] = float(inval)
+switch = False
+wh.avg_shelfed = options[0]
+print('Done')
+"]
+		"110_calls" [label="float
+print" shape=box]
+		110 -> "110_calls" [label=calls style=dashed]
+		110 -> 103 [label=""]
+		108 -> 110 [label="inval.isnumeric()"]
+		112 [label="print('Invalid')
+"]
+		"112_calls" [label=print shape=box]
+		112 -> "112_calls" [label=calls style=dashed]
+		112 -> 103 [label=""]
+		108 -> 112 [label="(not inval.isnumeric())"]
+		103 -> 108 [label=switch]
+		109 [label="switch = True
+"]
+		109 -> 95 [label=""]
+		103 -> 109 [label="(not switch)"]
+		101 -> 103 [label="user_input == '1'"]
+		105 [label="if user_input == '0':
+"]
+		106 [label="switch = False
+"]
+		106 -> 95 [label=""]
+		105 -> 106 [label="user_input == '0'"]
+		105 -> 95 [label="(user_input != '0')"]
+		101 -> 105 [label="(user_input != '1')"]
+		95 -> 101 [label=switch]
+		102 [label="switch = True
+"]
+		102 -> 7 [label=""]
+		95 -> 102 [label="(not switch)"]
+		94 -> 95 [label="user_input == '5'"]
+		97 [label="if user_input == '0':
+"]
+		98 [label="print(0)
+switch = False
+"]
+		"98_calls" [label=print shape=box]
+		98 -> "98_calls" [label=calls style=dashed]
+		98 -> 7 [label=""]
+		97 -> 98 [label="user_input == '0'"]
+		100 [label="print('Invalid input.')
+"]
+		"100_calls" [label=print shape=box]
+		100 -> "100_calls" [label=calls style=dashed]
+		100 -> 7 [label=""]
+		97 -> 100 [label="(user_input != '0')"]
+		94 -> 97 [label="(user_input != '5')"]
+		91 -> 94 [label="(user_input != '4')"]
+		88 -> 91 [label="(user_input != '3')"]
+		85 -> 88 [label="(user_input != '2')"]
+		81 -> 85 [label="(user_input != '1')"]
+		7 -> 81 [label=switch]
+		82 [label="switch = True
+"]
+		82 -> 4 [label=""]
+		7 -> 82 [label="(not switch)"]
+		5 -> 7 [label="user_input == '1'"]
+		9 [label="if user_input == '2':
+"]
+		10 [label="while switch:
+"]
+		68 [label="print(ui.UI(10, None))
+user_input = input(':')
+if user_input == '1':
+"]
+		"68_calls" [label="print
+input" shape=box]
+		68 -> "68_calls" [label=calls style=dashed]
+		70 [label="user_input = input('File Name: ')
+temp_wh = import_warehouse(user_input)
+if temp_wh != -1:
+"]
+		"70_calls" [label="input
+import_warehouse" shape=box]
+		70 -> "70_calls" [label=calls style=dashed]
+		78 [label="wh = temp_wh
+"]
+		78 -> 10 [label=""]
+		70 -> 78 [label="temp_wh != -1"]
+		80 [label="print('Invalid filename!')
+"]
+		"80_calls" [label=print shape=box]
+		80 -> "80_calls" [label=calls style=dashed]
+		80 -> 10 [label=""]
+		70 -> 80 [label="(temp_wh == -1)"]
+		68 -> 70 [label="user_input == '1'"]
+		72 [label="if user_input == '2':
+"]
+		73 [label="user_input = input('File Name: ')
+export_warehouse(wh, user_input)
+"]
+		"73_calls" [label="input
+export_warehouse" shape=box]
+		73 -> "73_calls" [label=calls style=dashed]
+		73 -> 10 [label=""]
+		72 -> 73 [label="user_input == '2'"]
+		75 [label="if user_input == '0':
+"]
+		76 [label="switch = False
+"]
+		76 -> 10 [label=""]
+		75 -> 76 [label="user_input == '0'"]
+		75 -> 10 [label="(user_input != '0')"]
+		72 -> 75 [label="(user_input != '2')"]
+		68 -> 72 [label="(user_input != '1')"]
+		10 -> 68 [label=switch]
+		69 [label="switch = True
+"]
+		69 -> 4 [label=""]
+		10 -> 69 [label="(not switch)"]
+		9 -> 10 [label="user_input == '2'"]
+		12 [label="if user_input == '3':
+"]
+		13 [label="options = [-1, -1]
+"]
+		48 [label="while switch:
+"]
+		49 [label="print(ui.UI(12, options))
+user_input = input(':')
+if user_input == '1':
+"]
+		"49_calls" [label="print
+input" shape=box]
+		49 -> "49_calls" [label=calls style=dashed]
+		51 [label="wh.edit_worker()
+"]
+		"51_calls" [label="wh.edit_worker" shape=box]
+		51 -> "51_calls" [label=calls style=dashed]
+		51 -> 48 [label=""]
+		49 -> 51 [label="user_input == '1'"]
+		53 [label="if user_input == '2':
+"]
+		54 [label="wh.edit_arrivals()
+"]
+		"54_calls" [label="wh.edit_arrivals" shape=box]
+		54 -> "54_calls" [label=calls style=dashed]
+		54 -> 48 [label=""]
+		53 -> 54 [label="user_input == '2'"]
+		56 [label="if user_input == '3':
+"]
+		57 [label="wh.edit_shelfs()
+"]
+		"57_calls" [label="wh.edit_shelfs" shape=box]
+		57 -> "57_calls" [label=calls style=dashed]
+		57 -> 48 [label=""]
+		56 -> 57 [label="user_input == '3'"]
+		59 [label="if user_input == '4':
+"]
+		60 [label="wh.edit_items()
+"]
+		"60_calls" [label="wh.edit_items" shape=box]
+		60 -> "60_calls" [label=calls style=dashed]
+		60 -> 48 [label=""]
+		59 -> 60 [label="user_input == '4'"]
+		62 [label="if user_input == '5':
+"]
+		63 [label="wh.edit_time_on_shelf()
+"]
+		"63_calls" [label="wh.edit_time_on_shelf" shape=box]
+		63 -> "63_calls" [label=calls style=dashed]
+		63 -> 48 [label=""]
+		62 -> 63 [label="user_input == '5'"]
+		65 [label="if user_input == '0':
+"]
+		66 [label="switch = False
+"]
+		66 -> 48 [label=""]
+		65 -> 66 [label="user_input == '0'"]
+		65 -> 48 [label="(user_input != '0')"]
+		62 -> 65 [label="(user_input != '5')"]
+		59 -> 62 [label="(user_input != '4')"]
+		56 -> 59 [label="(user_input != '3')"]
+		53 -> 56 [label="(user_input != '2')"]
+		49 -> 53 [label="(user_input != '1')"]
+		48 -> 49 [label=switch]
+		50 [label="switch = True
+"]
+		50 -> 4 [label=""]
+		48 -> 50 [label="(not switch)"]
+		13 -> 48 [label=""]
+		12 -> 13 [label="user_input == '3'"]
+		15 [label="if user_input == '4':
+"]
+		16 [label="options = [-1, -1]
+"]
+		22 [label="while switch:
+"]
+		23 [label="print(ui.UI(11, options))
+user_input = input(':')
+if user_input == '1':
+"]
+		"23_calls" [label="print
+input" shape=box]
+		23 -> "23_calls" [label=calls style=dashed]
+		25 [label="inval = input(': ')
+if inval.isnumeric():
+"]
+		"25_calls" [label=input shape=box]
+		25 -> "25_calls" [label=calls style=dashed]
+		45 [label="options[0] = int(inval)
+"]
+		"45_calls" [label=int shape=box]
+		45 -> "45_calls" [label=calls style=dashed]
+		45 -> 22 [label=""]
+		25 -> 45 [label="inval.isnumeric()"]
+		47 [label="print('Value is not a number')
+"]
+		"47_calls" [label=print shape=box]
+		47 -> "47_calls" [label=calls style=dashed]
+		47 -> 22 [label=""]
+		25 -> 47 [label="(not inval.isnumeric())"]
+		23 -> 25 [label="user_input == '1'"]
+		27 [label="if user_input == '2':
+"]
+		28 [label="user_input = float(input(': '))
+if not user_input <= 0:
+"]
+		"28_calls" [label=float shape=box]
+		28 -> "28_calls" [label=calls style=dashed]
+		42 [label="options[1] = float(user_input)
+"]
+		"42_calls" [label=float shape=box]
+		42 -> "42_calls" [label=calls style=dashed]
+		43 [label="print('Value is not a number')
+"]
+		"43_calls" [label=print shape=box]
+		43 -> "43_calls" [label=calls style=dashed]
+		43 -> 22 [label=""]
+		42 -> 43 [label=""]
+		28 -> 42 [label="not user_input <= 0"]
+		44 [label="print('Enter value above 0')
+"]
+		"44_calls" [label=print shape=box]
+		44 -> "44_calls" [label=calls style=dashed]
+		44 -> 43 [label=""]
+		28 -> 44 [label="(not not user_input <= 0)"]
+		27 -> 28 [label="user_input == '2'"]
+		30 [label="if user_input == '3':
+"]
+		31 [label="if -1 in options:
+"]
+		36 [label="print('Invalid settings')
+"]
+		"36_calls" [label=print shape=box]
+		36 -> "36_calls" [label=calls style=dashed]
+		36 -> 22 [label=""]
+		31 -> 36 [label="-1 in options"]
+		38 [label="with_scanning = wh.simulate(options[0], options[1], False)
+without_scanning = wh.simulate(options[0], options[1], True)
+print(
+    f'Without our solution the item would spend on average: {with_scanning[0]} seconds in the warehouse. And avrage time spent scanning is {with_scanning[1]} seconds'
+    )
+print(
+    f'With our solution the item would spend on average: {without_scanning[0]} seconds in the warehouse. And no scan time'
+    )
+if not with_scanning[0] == 0:
+"]
+		"38_calls" [label="wh.simulate
+wh.simulate
+print
+print" shape=box]
+		38 -> "38_calls" [label=calls style=dashed]
+		39 [label="print(
+    f\"That's a {int((1 - without_scanning[0] / with_scanning[0]) * 100)}% decrease in time!\"
+    )
+"]
+		"39_calls" [label=print shape=box]
+		39 -> "39_calls" [label=calls style=dashed]
+		40 [label="print(
+    'Something went wrong with the simulation, are you sure you entered all values correctly and that items have time to leave the warehouse?'
+    )
+"]
+		"40_calls" [label=print shape=box]
+		40 -> "40_calls" [label=calls style=dashed]
+		40 -> 22 [label=""]
+		39 -> 40 [label=""]
+		38 -> 39 [label="not with_scanning[0] == 0"]
+		41 [label="print('No items arrived in departures')
+"]
+		"41_calls" [label=print shape=box]
+		41 -> "41_calls" [label=calls style=dashed]
+		41 -> 40 [label=""]
+		38 -> 41 [label="(not not with_scanning[0] == 0)"]
+		31 -> 38 [label="(-1 not in options)"]
+		30 -> 31 [label="user_input == '3'"]
+		33 [label="if user_input == '0':
+"]
+		34 [label="switch = False
+"]
+		34 -> 22 [label=""]
+		33 -> 34 [label="user_input == '0'"]
+		33 -> 22 [label="(user_input != '0')"]
+		30 -> 33 [label="(user_input != '3')"]
+		27 -> 30 [label="(user_input != '2')"]
+		23 -> 27 [label="(user_input != '1')"]
+		22 -> 23 [label=switch]
+		24 [label="switch = True
+"]
+		24 -> 4 [label=""]
+		22 -> 24 [label="(not switch)"]
+		16 -> 22 [label=""]
+		15 -> 16 [label="user_input == '4'"]
+		18 [label="if user_input == '0':
+"]
+		19 [label="print(0)
+switch = False
+"]
+		"19_calls" [label=print shape=box]
+		19 -> "19_calls" [label=calls style=dashed]
+		19 -> 4 [label=""]
+		18 -> 19 [label="user_input == '0'"]
+		21 [label="print(ui.UI(0, None))
+print('Invalid input.')
+"]
+		"21_calls" [label="print
+print" shape=box]
+		21 -> "21_calls" [label=calls style=dashed]
+		21 -> 4 [label=""]
+		18 -> 21 [label="(user_input != '0')"]
+		15 -> 18 [label="(user_input != '4')"]
+		12 -> 15 [label="(user_input != '3')"]
+		9 -> 12 [label="(user_input != '2')"]
+		5 -> 9 [label="(user_input != '1')"]
+		4 -> 5 [label=switch]
+		3 -> 4 [label=""]
+	}
+}

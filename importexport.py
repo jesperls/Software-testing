@@ -10,21 +10,25 @@ import os
 def import_warehouse(filename):
     """Imports the warehouse from a json file"""
     try:
-        with open("Saved Warehouses/" + filename + '.json') as json_file:
+        with open("Saved Warehouses/" + filename + ".json") as json_file:
             data = json.load(json_file)
             wh = warehouse()
             for i in data["Shelves"][0].values():
-                values = re.findall(r'\d+', i)
+                values = re.findall(r"\d+", i)
                 wh.create_shelf(int(values[0]), int(values[1]), int(values[2]))
             for i in data["Workers"][0].values():
-                values = re.findall(r'\d+', i)
+                values = re.findall(r"\d+", i)
                 wh.create_worker_lst(1, int(values[0]), int(values[1]), int(values[2]))
             for i in data["Global Risks"][0].values():
                 values = i.split(",")
-                wh.global_risks.append(risk(values[0], values[1], float(values[2]), float(values[3])))
+                wh.global_risks.append(
+                    risk(values[0], values[1], float(values[2]), float(values[3]))
+                )
             for i in data["Item Risks"][0].values():
                 values = i.split(",")
-                wh.item_risks.append(risk(values[0], values[1], float(values[2]), float(values[3])))
+                wh.item_risks.append(
+                    risk(values[0], values[1], float(values[2]), float(values[3]))
+                )
             arr_dep = list(data["Arrivals"][0].values())
             # print(arr_dep)
             if arr_dep != [[]]:
@@ -71,7 +75,7 @@ def export_warehouse(wh, filename):
         global_risk_list.append([])
         global_risk_list[i].append(risk.name)
         global_risk_list[i].append(risk.type)
-        global_risk_list[i].append(float(risk.probability)*100)
+        global_risk_list[i].append(float(risk.probability) * 100)
         global_risk_list[i].append(float(risk.magnitude))
         global_risk_list[i] = ",".join(map(str, global_risk_list[i]))
     global_risk_series = pd.Series(global_risk_list)
@@ -84,7 +88,7 @@ def export_warehouse(wh, filename):
         item_risk_list.append([])
         item_risk_list[i].append(risk.name)
         item_risk_list[i].append(risk.type)
-        item_risk_list[i].append(float(risk.probability)*100)
+        item_risk_list[i].append(float(risk.probability) * 100)
         item_risk_list[i].append(float(risk.magnitude))
         item_risk_list[i] = ",".join(map(str, item_risk_list[i]))
     item_risks_series = pd.Series(item_risk_list)
@@ -101,11 +105,13 @@ def export_warehouse(wh, filename):
 
     df = df.append(arr_dep_series)
 
-    df = df.append(pd.Series(data=[wh.avg_shelfed], index=["AVG Shelfed"], name="AVG Shelfed"))
+    df = df.append(
+        pd.Series(data=[wh.avg_shelfed], index=["AVG Shelfed"], name="AVG Shelfed")
+    )
 
     json = df.apply(lambda x: [x.dropna()], axis=1).T.to_json()
 
-    with open("Saved Warehouses/" + filename + ".json", 'w') as f:
+    with open("Saved Warehouses/" + filename + ".json", "w") as f:
         f.write(json)
 
 
@@ -117,11 +123,16 @@ if __name__ == "__main__":
         wh.create_shelf(6, 5, 4)
     wh.create_arrivals(5)
     wh.create_departures(10)
-    item_risks = [["Fragile", "moving", 0.15, 20]]  # name, itype, probability, magnitude (seconds)
+    item_risks = [
+        ["Fragile", "moving", 0.15, 20]
+    ]  # name, itype, probability, magnitude (seconds)
     for i in item_risks:
         wh.item_risks.append(risk(i[0], i[1], i[2], i[3]))
 
-    global_risks = [["Missplace", "handeling", 0.1, 10], ["Scanning Error", "scanning", 0.1, 5]]
+    global_risks = [
+        ["Missplace", "handeling", 0.1, 10],
+        ["Scanning Error", "scanning", 0.1, 5],
+    ]
     for i in global_risks:
         wh.global_risks.append(risk(i[0], i[1], i[2], i[3]))
 

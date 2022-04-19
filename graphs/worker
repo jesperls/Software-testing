@@ -1,0 +1,119 @@
+digraph "clustergraphs/worker" {
+	graph [label="graphs/worker"]
+	1 [label="import random
+def __init__(self, scan_time, speed, item_handeling_time, id, inventory):...
+def is_wating(self):...
+def time_for_item(self, itm, distance, no_scanning):...
+def move_process(self, env, distance, target, itm, no_scanning):...
+def move(self, env, distance, target, itm, no_scanning):...
+def place_down(self, env):...
+def is_waiting(self):...
+"]
+	subgraph cluster__init__ {
+		graph [label=__init__]
+		3 [label="self._is_waiting = True
+self.scan_time = scan_time
+self.speed = speed
+self.item_handeling_time = item_handeling_time
+self.id = id
+self.inventory = inventory
+self.time_spent_scanning = 0
+"]
+	}
+	subgraph clusteris_wating {
+		graph [label=is_wating]
+		6 [label="\"\"\"Returns True if the worker is waiting for work\"\"\"
+return self._is_waiting
+"]
+	}
+	subgraph clustertime_for_item {
+		graph [label=time_for_item]
+		10 [label="\"\"\"Returns the time it takes to deliver an item\"\"\"
+time = distance / self.speed + self.item_handeling_time + self.scan_time
+self.time_spent_scanning += self.scan_time
+if no_scanning:
+"]
+		11 [label="time -= self.scan_time
+self.time_spent_scanning -= self.scan_time
+"]
+		12 [label="for risk in itm.risks:
+"]
+		13 [label="if risk.type == 'handeling':
+"]
+		15 [label="time += risk.magnitude
+"]
+		15 -> 12 [label=""]
+		13 -> 15 [label="risk.type == 'handeling'"]
+		17 [label="if not (no_scanning and risk.type == 'scanning'):
+"]
+		18 [label="if random.uniform(0, 1) < risk.probability:
+"]
+		25 [label="time += risk.magnitude
+self.time_spent_scanning -= self.scan_time
+"]
+		25 -> 12 [label=""]
+		18 -> 25 [label="random.uniform(0, 1) < risk.probability"]
+		18 -> 12 [label="(random.uniform(0, 1) >= risk.probability)"]
+		17 -> 18 [label="not (no_scanning and risk.type == 'scanning')"]
+		20 [label="if risk.type == 'moving':
+"]
+		21 [label="if random.uniform(0, 1) < risk.probability:
+"]
+		23 [label="time += risk.magnitude
+"]
+		23 -> 12 [label=""]
+		21 -> 23 [label="random.uniform(0, 1) < risk.probability"]
+		21 -> 12 [label="(random.uniform(0, 1) >= risk.probability)"]
+		20 -> 21 [label="risk.type == 'moving'"]
+		20 -> 12 [label="(risk.type != 'moving')"]
+		17 -> 20 [label="(not not (no_scanning and risk.type == 'scanning'))"]
+		13 -> 17 [label="(risk.type != 'handeling')"]
+		12 -> 13 [label="itm.risks"]
+		14 [label="return time
+"]
+		12 -> 14 [label=""]
+		11 -> 12 [label=""]
+		10 -> 11 [label=no_scanning]
+		10 -> 12 [label="(not no_scanning)"]
+	}
+	subgraph clustermove_process {
+		graph [label=move_process]
+		30 [label="\"\"\"Gives the worker a task and timesout the worker\"\"\"
+self.start = env.now
+self._is_waiting = False
+self.inventory.put(itm)
+time = self.time_for_item(itm, distance, no_scanning)
+itm.when_to_move = time
+yield env.timeout(time)
+"]
+		"30_calls" [label="self.inventory.put
+self.time_for_item" shape=box]
+		30 -> "30_calls" [label=calls style=dashed]
+		31 [label="target.store.put(self.inventory.get())
+self._is_waiting = True
+"]
+		"31_calls" [label="target.store.put" shape=box]
+		31 -> "31_calls" [label=calls style=dashed]
+		30 -> 31 [label=""]
+	}
+	subgraph clustermove {
+		graph [label=move]
+		34 [label="\"\"\"Creates the move process\"\"\"
+env.process(self.move_process(env, distance, target, itm, no_scanning))
+"]
+		"34_calls" [label="env.process" shape=box]
+		34 -> "34_calls" [label=calls style=dashed]
+	}
+	subgraph clusterplace_down {
+		graph [label=place_down]
+		37 [label="\"\"\"Returns the item in the workers inventory\"\"\"
+return self.inventory.get()
+"]
+	}
+	subgraph clusteris_waiting {
+		graph [label=is_waiting]
+		41 [label="\"\"\"Returns True if the worker is wating for work\"\"\"
+return self._is_waiting
+"]
+	}
+}

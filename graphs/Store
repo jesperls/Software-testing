@@ -1,0 +1,57 @@
+digraph "clustergraphs/Store" {
+	graph [label="graphs/Store"]
+	1 [label="def __init__(self, capacity):...
+def __len__(self):...
+def put(self, item):...
+def get(self):...
+def empty(self):...
+"]
+	subgraph cluster__init__ {
+		graph [label=__init__]
+		3 [label="self.capacity = capacity
+self.items = []
+"]
+	}
+	subgraph cluster__len__ {
+		graph [label=__len__]
+		6 [label="return len(self.items)
+"]
+	}
+	subgraph clusterput {
+		graph [label=put]
+		10 [label="if self.capacity == -1:
+"]
+		11 [label="self.items.append(item)
+"]
+		"11_calls" [label="self.items.append" shape=box]
+		11 -> "11_calls" [label=calls style=dashed]
+		10 -> 11 [label="self.capacity == -1"]
+		13 [label="if len(self) < self.capacity:
+"]
+		14 [label="self.items.append(item)
+"]
+		"14_calls" [label="self.items.append" shape=box]
+		14 -> "14_calls" [label=calls style=dashed]
+		13 -> 14 [label="len(self) < self.capacity"]
+		16 [label="return False
+"]
+		13 -> 16 [label="(len(self) >= self.capacity)"]
+		10 -> 13 [label="(self.capacity != -1)"]
+	}
+	subgraph clusterget {
+		graph [label=get]
+		20 [label="if self.items:
+"]
+		21 [label="return self.items.pop(0)
+"]
+		20 -> 21 [label="self.items"]
+		23 [label="return False
+"]
+		20 -> 23 [label="(not self.items)"]
+	}
+	subgraph clusterempty {
+		graph [label=empty]
+		28 [label="self.items = []
+"]
+	}
+}
