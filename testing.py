@@ -41,7 +41,7 @@ def test_edit_time_on_shelf():
 
 def test_run():
     print("Testing warehouse.run(): \n")
-    
+
     # 6S
     wh = warehouse()
     wh.create_worker_lst(1, 5, 5, 5)

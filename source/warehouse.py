@@ -356,8 +356,8 @@ class warehouse:
             else:
                 print("-Z") 
 
-            return  
-            # yield self.env.timeout(0.1)
+            # return  
+            yield self.env.timeout(10)
 
 
     def simulate(self, sim_time, arrivals_freq, no_scanning):
@@ -423,9 +423,8 @@ class warehouse:
         self.env = simpy.Environment()                      #Create simulation environment
         self.env.process(self.gen_items(arrivals_freq))     #Make gen_items a process
         self.env.process(self.run_mock(no_scanning))             #Make run a process
-        # self.env.process(self.get_progress())       #Make get_progress a process 
 
-        self.env.run_mock()                        #Run the simulation
+        self.env.run(until=1)                         #Run the simulation
 
         ret_val = 0
         avr_time_scanning = 0
