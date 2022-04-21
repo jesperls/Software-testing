@@ -186,6 +186,21 @@ class warehouse:
             else:
                 print("Invalid")
 
+    def edit_time_on_shelf_mock(self, u_inputs):
+        while True:
+            print(f"1. Average item time on shelves: {self.avg_shelfed} seconds")
+            print("0. Back")
+            user_input =  u_inputs.pop(0)
+            if (user_input == "1"):
+                user_input = u_inputs.pop(0)
+                if user_input.isnumeric():
+                    self.avg_shelfed = int(user_input)
+                else:
+                    print("Invalid")
+            elif (user_input == "0"):
+                return
+            else:
+                print("Invalid")
 
     def create_worker_lst(self, amount, scan_time, speed, item_handeling_time):
         """Create one or multiple workers and add them to the warehouse"""
@@ -193,14 +208,14 @@ class warehouse:
             self.workers.append(worker(scan_time, speed, item_handeling_time, i, Store(1)))
 
 
-    def create_item(self):
+    def create_item(self, testing=False):
         """Returns an item with the avalible risks"""
         temp_risk = []
 
         for irisk in self.item_risks:
             if irisk.type == "handeling":
                 if random.uniform(0,1) < irisk.probability: #Gives the item constant risk like size or fragile
-                    temp_risk.append(irisk)                 #NOTE This dose nothing at the moment, only scanning risks are implemented
+                    temp_risk.append(irisk)                 #NOTE This does nothing at the moment, only scanning risks are implemented
             else:
                 temp_risk.append(irisk)
 
@@ -208,7 +223,8 @@ class warehouse:
 
         for i in temp_risk:
             final_risk_lst.append(risk(i.name, i.type, i.probability, i.magnitude))
-
+        if testing: # Dummy code for testing purposes outside of the simpy environment
+            return item(final_risk_lst, 0)
         return item(final_risk_lst, self.env.now)
 
 
