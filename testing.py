@@ -40,14 +40,22 @@ def test_edit_time_on_shelf():
     wh.edit_time_on_shelf_mock(inputs)
 
 def test_run():
+    print("Testing warehouse.run(): \n")
+    
+    # 6S
     wh = warehouse()
-    wh.create_worker_lst(10, 5, 5, 5)
+    wh.create_worker_lst(1, 5, 5, 5)
     wh.create_shelf(100, 5, 5)
     wh.create_arrivals(10)
+    wh.create_departures()
     for i in range(10):
         wh.arrivals.store.put(wh.create_item(True))
+    
+    wh.simulate_mock(10, False)
+
+    print("Done")
 
 if __name__ == "__main__":
-    test_edit_time_on_shelf()
-    test_create_item()
+    # test_edit_time_on_shelf()
+    # test_create_item()
     test_run()

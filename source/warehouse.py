@@ -294,6 +294,71 @@ class warehouse:
 
             yield self.env.timeout(0.1)
 
+    def run_mock(self, no_scanning):
+        # """TEST: The main function to contoll the simulation"""
+
+        while True:
+            print("A", end="")
+            free_workers = []
+            print("-B", end="")
+            for w in self.workers:          #Find all workers with no task
+                print("-C", end="")
+                if w.is_waiting():
+                    print("-D", end="")
+                    free_workers.append(w)
+                    print("-E", end="")
+                print("-F", end="")
+
+            print("-G", end="")
+            free_shelves = []               #Find all full shelves
+            print("-H", end="")
+
+            for s in self.shelves:
+                print("-I", end="")
+                if not s.is_full():
+                    print("-J", end="")
+                    free_shelves.append(s)
+                    print("-K", end="")
+                print("-L", end="")
+
+            print("-M", end="")
+
+            if free_workers:                    #Give the free workers a job
+                print("-N", end="")
+                if random.randint(1, 2) == 1:   #Randomize if the worker should move items from arrivals or shevles
+                    print("-O", end="")
+                    for shlf in self.shelves:   #Find a shelf with item that should be moved and move it
+                        print("-P", end="")
+                        chosen_one = random.choice(free_workers)
+                        itm = shlf.item_to_be_moved(self.env, chosen_one)
+                        print("-Q", end="")
+                        if itm:
+                            print("-S", end="")
+                            chosen_one.move(self.env, shlf.distance_from_arrivals + shlf.distance_from_departure, self.departures, itm, no_scanning)
+                            itm.exited = self.env.now + chosen_one.time_for_item(itm, shlf.distance_from_arrivals + shlf.distance_from_departure, no_scanning) + self.avg_shelfed
+                            print("-T")
+                            break
+                        print("-R", end="")
+                    print("-U")
+
+                elif not self.arrivals.is_empty() and free_shelves:
+                    print("-V", end="")
+                    print("-W", end="")
+                    chosen_one = random.choice(free_workers)    #Move an item from arrivals to a shelf
+                    chosen_shelf = random.choice(free_shelves)
+                    itm = self.arrivals.store.get()
+                    chosen_one.move(self.env, chosen_shelf.distance_from_arrivals, chosen_shelf, itm, no_scanning)
+                    itm.when_to_move += self.avg_shelfed + self.env.now
+                    print("-X")
+                else:
+                    print("-V", end="")
+                    print("-Y")
+            else:
+                print("-Z") 
+
+            return  
+            # yield self.env.timeout(0.1)
+
 
     def simulate(self, sim_time, arrivals_freq, no_scanning):
         """Simulates sim_time number of seconds with items arraving and departing based on arrivals_freq"""
@@ -319,6 +384,48 @@ class warehouse:
         self.env.process(self.get_progress(sim_time))       #Make get_progress a process 
 
         self.env.run(until=sim_time)                        #Run the simulation
+
+        ret_val = 0
+        avr_time_scanning = 0
+
+        tot_time_items = 0
+        for itm in self.departures.store.items:             #Create the return values
+            tot_time_items += itm.exited - itm.enterd
+        if not (len(self.departures.store.items) == 0):
+            ret_val = tot_time_items/len(self.departures.store.items)
+
+        avr_time_scanning = 0
+        for worker in self.workers:
+            avr_time_scanning = worker.time_spent_scanning
+        if not (len(self.workers) == 0):
+            avr_time_scanning = avr_time_scanning / len(self.workers)
+
+        return [ret_val, avr_time_scanning]
+
+    def simulate_mock(self, arrivals_freq, no_scanning):
+        """Simulates sim_time number of seconds with items arraving and departing based on arrivals_freq"""
+        self.progress = 10          #Resets the progressbar
+        
+        for shlf in self.shelves:   #Resets the contents of all shelves
+            shlf.store.empty()
+
+        self.arrivals.store.empty()     #Resets arrivals
+        self.departures.store.empty()   #Resets departures
+
+        tempw = self.workers[:]         #Due to simpy weirdness the workers must be recreated to reset them
+        self.workers = []
+        for w in tempw:
+            self.create_worker_lst(1, w.scan_time, w.speed, w.item_handeling_time)
+
+        for wor in self.workers:        #Reset worker inventory
+            wor.inventory.empty()       
+
+        self.env = simpy.Environment()                      #Create simulation environment
+        self.env.process(self.gen_items(arrivals_freq))     #Make gen_items a process
+        self.env.process(self.run_mock(no_scanning))             #Make run a process
+        # self.env.process(self.get_progress())       #Make get_progress a process 
+
+        self.env.run_mock()                        #Run the simulation
 
         ret_val = 0
         avr_time_scanning = 0
