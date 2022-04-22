@@ -186,21 +186,43 @@ class warehouse:
             else:
                 print("Invalid")
 
-    def edit_time_on_shelf_mock(self, u_inputs):
+    def edit_time_on_shelf_mock(self, u_inputs, expected):
+        """TEST: Mock function of edit_time_on_shelf for easier testing and commented out prints"""
+        result = ""
         while True:
-            print(f"1. Average item time on shelves: {self.avg_shelfed} seconds")
-            print("0. Back")
+            result += "A-"
+            #print(f"1. Average item time on shelves: {self.avg_shelfed} seconds")
+            result += "B-"
+            #print("0. Back")
+            result += "C-"
             user_input =  u_inputs.pop(0)
+            result += "D-"
             if (user_input == "1"):
+                result += "E-"
                 user_input = u_inputs.pop(0)
+                result += "F-"
                 if user_input.isnumeric():
+                    result += "G-"
                     self.avg_shelfed = int(user_input)
+                    result += "H-"
                 else:
-                    print("Invalid")
+                    result += "I-"
+                    #print("Invalid")
+                    result += "J-"
             elif (user_input == "0"):
+                result += "K-"
+                result += "L"
+                if(all(x in result.split("-") for x in expected.split("-"))): 
+                    print("\033[1;32m Success \033[0m")
+                else: 
+                    print("\033[1;31m Failed \033[0m")
+                    print(f"   unexpected: \n   {result} \n   {expected}")
                 return
             else:
-                print("Invalid")
+                result += "K-"
+                result += "M-"
+                #print("Invalid")
+                result += "N-"
 
     def create_worker_lst(self, amount, scan_time, speed, item_handeling_time):
         """Create one or multiple workers and add them to the warehouse"""
@@ -208,7 +230,7 @@ class warehouse:
             self.workers.append(worker(scan_time, speed, item_handeling_time, i, Store(1)))
 
 
-    def create_item(self, testing=False):
+    def create_item(self, testing):
         """Returns an item with the avalible risks"""
         temp_risk = []
 
@@ -223,9 +245,48 @@ class warehouse:
 
         for i in temp_risk:
             final_risk_lst.append(risk(i.name, i.type, i.probability, i.magnitude))
-        if testing: # Dummy code for testing purposes outside of the simpy environment
+        if testing:
             return item(final_risk_lst, 0)
         return item(final_risk_lst, self.env.now)
+
+
+
+    def mock_create_item(self, expected):
+        """TEST: Returns an item with the avalible risks"""
+        result = ""
+        temp_risk = []
+        result += "A-"
+        result += "B-"
+        for irisk in self.item_risks:
+            result += "C-"
+            if irisk.type == "handeling":
+                result += "F-"
+                if random.uniform(0,1) < irisk.probability: #Gives the item constant risk like size or fragile
+                    result += "H-"
+                    temp_risk.append(irisk)                 #NOTE This does nothing at the moment, only scanning risks are implemented
+                    result += "I-"
+                else:
+                    result += "G-"
+            else:
+                result += "D-"
+                temp_risk.append(irisk)
+                result += "E-"
+
+        result += "J-"
+        final_risk_lst = []
+        result += "K-"
+        result += "L-"
+        for i in temp_risk:
+            result += "M-"
+            final_risk_lst.append(risk(i.name, i.type, i.probability, i.magnitude))
+            result += "N-"
+        result += "O"
+        if(all(x in result.split("-") for x in expected.split("-"))): 
+            print("\033[1;32m Success \033[0m")
+        else: 
+            print("\033[1;31m Failed \033[0m")
+            print(f"   unexpected: \n   {result} \n   {expected}")
+        return item(final_risk_lst, 0)
 
 
     def create_shelf(self, capacity, distance_from_arrivals, distance_from_departure):

@@ -1,50 +1,53 @@
 from source.warehouse import *
 
 def test_create_item():
+    print("Testing create_item.run(): \n")
+    # 1P
+    print("Test: (id: 1P): ", end="")
     wh = warehouse()
-
-    # 1D
-    print("Test: (id: 1D): ", end="")
-    itm = wh.create_item(True)
-    for i in itm.risks:
-        print(i.name)
-    wh.item_risks = [risk("Scanning Risk", "scanning", 100, 0)]
-
-    # 3D
-    print("Test: (id: 1D): ", end="")
-    itm = wh.create_item(True) 
-    for i in itm.risks:
-        print(i.name)
+    itm = wh.mock_create_item("A-B-J-K-L-O")
     
-    # 2D
-    print("Test: (id: 2D): ", end="")
+    # 2P & 1S
+    print("Test: (id: 2P, 1S): ", end="")
+    wh = warehouse()
     wh.item_risks = [risk("Handeling Risk", "handeling", 100, 0)]
-    itm = wh.create_item(True)
-    for i in itm.risks:
-        print(i.name)
+    itm = wh.mock_create_item("A-B-C-F-H-I-J-K-L-M-N-O")
+
+    # 3P & 2S
+    print("Test: (id: 3P, 2S): ", end="")
+    wh = warehouse()
+    wh.item_risks = [risk("Scanning Risk", "scanning", 100, 0)]
+    itm = wh.mock_create_item("A-B-C-D-E-J-K-L-M-N-O")
+
+    # 6P
+    print("Test: (id: 6P): ", end="")
+    wh = warehouse()
+    wh.item_risks = [risk("Scanning Risk", "handeling", 0, 0)]
+    itm = wh.mock_create_item("A-B-C-F-G-J-K-L-O")
 
 def test_edit_time_on_shelf():
+    print("Testing edit_time_on_shelf.run(): \n")
     wh = warehouse()
 
     # 8P
     print("Test: (id: 8P): ", end="")
-    inputs = ["1", "15", "0"]
-    wh.edit_time_on_shelf_mock(inputs)
-
-    # 9P
-    print("Test: (id: 9P): ", end="")
-    inputs = ["1", "a", "0"]
-    wh.edit_time_on_shelf_mock(inputs)
-
-    # 7P
-    print("Test: (id: 7P): ", end="")
     inputs = ["0"]
-    wh.edit_time_on_shelf_mock(inputs)
+    wh.edit_time_on_shelf_mock(inputs, "A-B-C-D-K-L")
 
-    # 10P
-    print("Test: (id: 10P): ", end="")
+    # 9P & 3S
+    print("Test: (id: 9P, 3S): ", end="")
+    inputs = ["1", "15", "0"]
+    wh.edit_time_on_shelf_mock(inputs, "A-B-C-D-E-F-G-H-A-B-C-D-K-L")
+
+    # 10P & 4S
+    print("Test: (id: 10P, 4S): ", end="")
+    inputs = ["1", "a", "0"]
+    wh.edit_time_on_shelf_mock(inputs, "A-B-C-D-E-F-I-J-A-B-C-D-K-L")
+
+    # 11P & 5S
+    print("Test: (id: 11P, 5S): ", end="")
     inputs = ["a", "0"]
-    wh.edit_time_on_shelf_mock(inputs)
+    wh.edit_time_on_shelf_mock(inputs, "A-B-C-D-K-M-N-A-B-C-D-K-L")
 
 def test_run():
     print("Testing warehouse.run(): \n")
@@ -149,6 +152,6 @@ def test_run():
     wh.simulate_mock(10, False, 2, "A-B-G-H-M-N-V-Y")
 
 if __name__ == "__main__":
-    test_edit_time_on_shelf()
     test_create_item()
+    test_edit_time_on_shelf()
     test_run()
